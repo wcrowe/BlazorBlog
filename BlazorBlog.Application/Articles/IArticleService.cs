@@ -9,7 +9,7 @@ namespace BlazorBlog.Application.Articles
 {
     public interface IArticleService
     {
-        List<Article> GetAllArticles();
+        Task<List<Article>> GetAllArticlesAsync();
        
     }
 }
