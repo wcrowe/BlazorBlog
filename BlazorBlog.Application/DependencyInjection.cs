@@ -7,7 +7,8 @@ namespace BlazorBlog.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<IArticleService, ArticleService>();
+            services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));   
+
             return services;
         }
     }

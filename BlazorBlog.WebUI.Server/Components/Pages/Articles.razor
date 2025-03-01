@@ -1,11 +1,11 @@
 ﻿@page "/articles"
 
-@inject IArticleService ArticleService
+@inject ISender Sender
 @attribute [StreamRendering]
 
 <h3>Articles</h3>
 
-@if (articles.Count > 0)
+@if (_articles.Count > 0)
 {
 
     <table class="table">
@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var article in articles)
+            @foreach (var article in _articles)
             {
                 <tr>
                     <td>@article.Id</td>
@@ -34,16 +34,13 @@ else
 }
 
 @code {
-    private List<Article> articles = new();
+    private List<Article> _articles = [];
 
     protected override async Task OnInitializedAsync()
     {
 
-        var result = await ArticleService.GetAllArticlesAsync();
-        if (result is not null)
-        {
-            articles = result;
-        }
+        var result = await Sender.Send(new GetArticlesQuery());
+        _articles = result;
     }
 
 }
