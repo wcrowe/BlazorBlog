@@ -18,17 +18,14 @@ namespace BlazorBlog.Application.Articles.UpdateArticle
         }
         public async Task<ArticleReponse?> Handle(UpdateArticleCommand request, CancellationToken cancellationToken)
         {
-            var article = await _articleRepository.GetArticleByIdAsync(request.Id);
+            var updateArticle = request.Adapt<Article>();
+            var article = await _articleRepository.UpdateArticleAsync(updateArticle);
             if (article is null)
             {
                 return null;
             }
-            article.Title = request.Title;
-            article.Content = request.Content;
-            article.DatePublished = request.DatePublished;
-            article.IsPublished = request.IsPublished;
-            await _articleRepository.UpdateArticleAsync(article);
             return article.Adapt<ArticleReponse>();
+
         }
     }
 }
