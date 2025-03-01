@@ -1,7 +1,9 @@
 ﻿@page "/article-editor"
+@inject ISender Sender
+
 <PageTitle>Create New Article</PageTitle>
 <h3>Create New Article</h3>
-<EditForm Model="Article">
+<EditForm Model="Article" OnSubmit="HandleSubmit" FormName="ArticleEditorForm">
     <InputText @bind-Value="Article.Title" class="form-control" />
     <InputTextArea @bind-Value="Article.Content" class="form-control" />
     <InputDate @bind-Value="Article.DatePublished" class="form-control" />
@@ -13,6 +15,14 @@
 </EditForm>
 
 @code {
+    [SupplyParameterFromForm]
     public ArticleModel Article { get; set; } = new();
+
+    private async Task HandleSubmit(EditContext arg)
+    {
+        var command = Article.Adapt<CreateArticleCommand>();
+        var result = await Sender.Send(command);
+        Article = result.Adapt<ArticleModel>();
+    }
 
 }
