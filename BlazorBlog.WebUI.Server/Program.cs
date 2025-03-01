@@ -1,6 +1,7 @@
-using BlazorBlog.WebUI.Server.Components;
+
 using BlazorBlog.Application;
 using BlazorBlog.Infrastructure;
+using BlazorBlog.WebUI.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,4 @@
-﻿namespace BlazorBlog.WebUI.Server.Components.Pages
+﻿namespace BlazorBlog.WebUI.Server.Features.Articles
 {
     public class ArticleModel
     {
