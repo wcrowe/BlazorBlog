@@ -2,9 +2,10 @@
 
 @inject ISender Sender
 @attribute [StreamRendering]
-
+<PageTitle>Articles</PageTitle>
 <h3>Articles</h3>
 
+<a href="/article-editor" class="btn btn-primary">Create new article</a>
 @if (_articles.Count > 0)
 {
 
@@ -34,7 +35,7 @@ else
 }
 
 @code {
-    private List<Article> _articles = [];
+    private List<ArticleReponse> _articles = [];
 
     protected override async Task OnInitializedAsync()
     {

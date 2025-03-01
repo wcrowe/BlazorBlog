@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorBlog.Application.Articles.CreateArticle
 {
-    public class CreateArticleCommand : IRequest<Article>
+    public class CreateArticleCommand : IRequest<ArticleReponse>
     {
         public required string Title { get; set; }
         public string? Content { get; set; }

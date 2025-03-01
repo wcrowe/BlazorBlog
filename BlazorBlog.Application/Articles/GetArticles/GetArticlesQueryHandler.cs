@@ -1,14 +1,16 @@
 ﻿using BlazorBlog.Domain.Articles;
+using Mapster;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MapsterMapper; 
 
 namespace BlazorBlog.Application.Articles.GetArticles
 {
-    public class GetArticlesQueryHandler : IRequestHandler<GetArticlesQuery, List<Article>>
+    public class GetArticlesQueryHandler : IRequestHandler<GetArticlesQuery, List<ArticleReponse>>
     {
         private readonly IArticleRepository _articleRepository;
 
@@ -17,9 +19,10 @@ namespace BlazorBlog.Application.Articles.GetArticles
             _articleRepository = articleRepository;
         }
 
-        public async Task<List<Article>> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
+        public async Task<List<ArticleReponse>> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
         {
-            return await _articleRepository.GetAllArticlesAsync();
+            var articles =  await _articleRepository.GetAllArticlesAsync();
+            return articles.Adapt<List<ArticleReponse>>();
         }
     }
 }

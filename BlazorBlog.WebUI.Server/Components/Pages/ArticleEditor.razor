@@ -1,0 +1,18 @@
+﻿@page "/article-editor"
+<PageTitle>Create New Article</PageTitle>
+<h3>Create New Article</h3>
+<EditForm Model="Article">
+    <InputText @bind-Value="Article.Title" class="form-control" />
+    <InputTextArea @bind-Value="Article.Content" class="form-control" />
+    <InputDate @bind-Value="Article.DatePublished" class="form-control" />
+    <div class="form-check">
+        <InputCheckbox @bind-Value="Article.IsPublished" class="form-check-input" />
+        <label class="form-check-label">Is Published</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    public ArticleModel Article { get; set; } = new();
+
+}
