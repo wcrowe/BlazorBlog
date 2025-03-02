@@ -41,23 +41,31 @@ else
 
 }
 
+<span class="text-danger">@errorMessage</span>
+
 @code {
     private bool IsEditMode => ArticleId is not null; // != null //ArticleId.HasValue;
 
     [SupplyParameterFromForm]
     public ArticleModel? Article { get; set; }
+
     [Parameter]
     public int? ArticleId { get; set; }
 
+    private string errorMessage = string.Empty;
     protected override async Task OnParametersSetAsync()
     {
         if (ArticleId is not null)
         {
             var result = await Sender.Send(new GetArticleByIdQuery { Id = (int)ArticleId });
-            if (result is not null)
+            if (result.Success)
             {
-                Article ??= result.Adapt<ArticleModel>();
+                Article ??= result.Value.Adapt<ArticleModel>();
                 Article.Id = (int)ArticleId;
+            }
+            else
+            {
+                SetErrorMessage(result.Error);
             }
         }
         else
@@ -73,18 +81,27 @@ else
         {
             var command = Article.Adapt<UpdateArticleCommand>();
             var result = await Sender.Send(command);
-            if (result is not null)
+            if (result.Success)
             {
-                Article = result.Adapt<ArticleModel>();
+                Article = result.Value.Adapt<ArticleModel>();  // ((ArticleReponse?)result).Adapt<ArticleModel>();
+            }else
+            {
+                SetErrorMessage(result.Error);
             }
         }
         else
         {
             var command = Article.Adapt<CreateArticleCommand>();
             var result = await Sender.Send(command);
+            if (result.Success)
+            {
+                Article = result.Adapt<ArticleModel>();
+                NavigationManager.NavigateTo($"/article-editor/{result.Value.Id}");
+            }else
+            {
+                SetErrorMessage(result.Error);
+            }
 
-            Article = result.Adapt<ArticleModel>();
-            NavigationManager.NavigateTo($"/article-editor/{result.Id}");
 
             // Article = result.Adapt<ArticleModel>();
         }
@@ -96,12 +113,24 @@ else
         if (ArticleId is not null)
         {
             var command = new DeleteArticleCommand { Id = (int)ArticleId };
-            var isSuccess = await Sender.Send(command);
-            if (isSuccess)
+            var result = await Sender.Send(command);
+            if (result.Success)
             {
                 NavigationManager.NavigateTo("/articles");
             }
+            else
+            {
+                SetErrorMessage(result.Error);
+            }
         }
+    }
+
+    void SetErrorMessage(string? message)
+    {
+        if (message is not null)
+            errorMessage = message;
+        else
+            errorMessage = string.Empty;
     }
 
 }

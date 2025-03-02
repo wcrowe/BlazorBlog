@@ -1,5 +1,4 @@
-﻿using BlazorBlog.Application.Articles;
-using BlazorBlog.Domain.Articles;
+﻿using BlazorBlog.Domain.Articles;
 using BlazorBlog.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

@@ -6,35 +6,42 @@
 <h3>Articles</h3>
 
 <a href="/article-editor" class="btn btn-primary">Create new article</a>
-@if (_articles.Count > 0)
+if (articles is null){
+    <p><em>Loading...</em></p>
+}
+else if (articles.Count == 0){
+    <p><em>No articles found</em></p>
+}
+else{
+    @foreach (var article in articles)
 {
+    <div>
+        <h4>@article.Title</h4>
+        <p>@article.Content</p>
+        <small>@article.DatePublished</small>
+        <a href="/article-editor/@article.Id">Edit article @article.Id</a>
 
-
-    @foreach (var article in _articles)
-    {
-        <div>
-            <h4>@article.Title</h4>
-            <p>@article.Content</p>
-            <small>@article.DatePublished</small>
-            <a href="/article-editor/@article.Id">Edit article @article.Id</a>
-
-        </div>
-    }
+    </div>
+}
 
 }
 else
 {
-    <p><em>Loading...</em></p>
+<p><em>Loading...</em></p>
 }
 
 @code {
-    private List<ArticleReponse> _articles = [];
+    private List<ArticleReponse>? articles = new();
 
     protected override async Task OnInitializedAsync()
     {
 
         var result = await Sender.Send(new GetArticlesQuery());
-        _articles = result;
+        if (result.Success)
+            articles = result;
+        else
+            articles = new();
+
     }
 
 }

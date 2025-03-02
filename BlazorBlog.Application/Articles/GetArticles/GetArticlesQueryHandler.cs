@@ -11,7 +11,7 @@
 
         public async Task<Result<List<ArticleReponse>>> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
         {
-            var articles =  await _articleRepository.GetAllArticlesAsync();
+            var articles = await _articleRepository.GetAllArticlesAsync();
             return articles.Adapt<List<ArticleReponse>>();
         }
     }

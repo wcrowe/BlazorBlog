@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BlazorBlog.Domain.Abstractions
+﻿namespace BlazorBlog.Domain.Abstractions
 {
     public class Result
     {
-        public bool IsSuccess { get; }
-        public bool Failure => !IsSuccess;
+        public bool Success { get; }
+        public bool Failure => !Success;
         public string? Error { get; }
         protected Result(bool isSuccess, string? errorMessage = null)
         {
-            IsSuccess = isSuccess;
+            Success = isSuccess;
             Error = errorMessage;
         }
 
@@ -35,7 +28,7 @@ namespace BlazorBlog.Domain.Abstractions
         {
             Value = value;
         }
-  
+
 
         public static implicit operator Result<T>(T value) => FromValue(value);
         public static implicit operator T?(Result<T> result) => result.Value;

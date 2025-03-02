@@ -12,6 +12,6 @@ public class CreateArticleCommandHandler : ICommandHandler<CreateArticleCommand,
 
         var newArticle = request.Adapt<Article>();
         var article = await _articleRepository.CreateArticleAsync(newArticle);
-        return article.Adapt<ArticleReponse>(); 
+        return article.Adapt<ArticleReponse>();
     }
 }
