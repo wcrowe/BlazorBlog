@@ -37,5 +37,7 @@ namespace BlazorBlog.Domain.Abstractions
         }
         public static Result<T> Ok(T value) => new(value, true);
         public new static Result<T> Fail(string errorMessage) => new(default!, false, errorMessage);
+
+        public static implicit operator Result<T>(T value) => FromValue(value);
     }
 }
