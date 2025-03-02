@@ -19,17 +19,17 @@ else
 {
     <EditForm Model="Article" OnSubmit="HandleSubmit" FormName="ArticleEditorForm" class="space-y-6">
         <div>
-            <label for="title" class="ml-2 text-sm text-gray-900 dark:text-gray-100">Title</label>
-            <InputText id="title" @bind-Value="Article.Title" class="w-full p-3 rounded bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label for="title" class="text-sm">Title</label>
+            <InputText id="title" @bind-Value="Article.Title" class="w-full p-3 rounded border border-white dark:bg-gray-100" />
         </div>
 
         <div>
-            <label for="content" class="ml-2 text-sm text-gray-900 dark:text-gray-100">Conent</label>
-            <InputTextArea id="content" @bind-Value="Article.Content" class="w-full p-3 rounded bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label for="content" class="text-sm">Conent</label>
+            <InputTextArea id="content" @bind-Value="Article.Content" class="w-full p-3 rounded border border-white dark:bg-gray-100" />
         </div>
         <div>
-            <label for="datePublished" class="ml-2 text-sm text-gray-900 dark:text-gray-100">Date Published</label>
-            <InputDate id="datePublished" @bind-Value="Article.DatePublished" class="w-full p-3 rounded bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label for="datePublished" class="text-sm">Date Published</label>
+            <InputDate id="datePublished" @bind-Value="Article.DatePublished" class="w-full p-3 rounded border border-white dark:bg-gray-100" />
         </div>
         <div>
             <InputCheckbox @bind-Value="Article.IsPublished" class="w-5 h-5 text-blue-600 bg-white border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 checked:bg-blue-600 checked:border-blue-600 dark:bg-gray-800 dark:border-gray-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-blue-600" />
