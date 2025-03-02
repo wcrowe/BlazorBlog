@@ -32,8 +32,8 @@ else
             <InputDate id="datePublished" @bind-Value="Article.DatePublished" class="w-full p-3 rounded bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
         <div class="form-check">
-            <InputCheckbox @bind-Value="Article.IsPublished" class="form-check-input" />
-            <label class="text-sm">Is Published</label>
+            <InputCheckbox @bind-Value="Article.IsPublished" class="w-5 h-5 text-blue-600 bg-white border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 checked:bg-blue-600 checked:border-blue-600 dark:bg-gray-800 dark:border-gray-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-blue-600" />
+            <label class="ml-2 text-sm text-gray-900 dark:text-gray-100">Is Published</label>
         </div>
         <button type="submit" class="w-full p-3 text-sm font-bold tracking-wide uppercase rounded bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition">Submit</button>
     </EditForm>
