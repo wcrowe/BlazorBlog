@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="styles\tailwind.css" />
+    <Content Include="styles\input.css" />
     <Content Include="tailwind.config.js" />
   </ItemGroup>
 
