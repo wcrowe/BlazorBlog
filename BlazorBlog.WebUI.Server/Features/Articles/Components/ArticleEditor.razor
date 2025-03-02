@@ -1,29 +1,107 @@
 ﻿@page "/article-editor"
+@page "/article-editor/{ArticleId:int}"
+
+
 
 @inject ISender Sender
+@inject NavigationManager NavigationManager
+@if (IsEditMode && Article is not null)
+{
+    <PageTitle>Edit Article "@Article.Title"</PageTitle>
+    <h3>Edit Article "@Article.Title"</h3>
+}
+else
+{
+    <PageTitle>Create New Article</PageTitle>
+    <h3>Create New Article</h3>
+}
+@if (Article is not null)
+{
+    <EditForm Model="Article" OnSubmit="HandleSubmit" FormName="ArticleEditorForm">
+        <InputText @bind-Value="Article.Title" class="form-control" />
+        <InputTextArea @bind-Value="Article.Content" class="form-control" />
+        <InputDate @bind-Value="Article.DatePublished" class="form-control" />
+        <div class="form-check">
+            <InputCheckbox @bind-Value="Article.IsPublished" class="form-check-input" />
+            <label class="form-check-label">Is Published</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </EditForm>
 
-<PageTitle>Create New Article</PageTitle>
-<h3>Create New Article</h3>
-<EditForm Model="Article" OnSubmit="HandleSubmit" FormName="ArticleEditorForm">
-    <InputText @bind-Value="Article.Title" class="form-control" />
-    <InputTextArea @bind-Value="Article.Content" class="form-control" />
-    <InputDate @bind-Value="Article.DatePublished" class="form-control" />
-    <div class="form-check">
-        <InputCheckbox @bind-Value="Article.IsPublished" class="form-check-input" />
-        <label class="form-check-label">Is Published</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</EditForm>
+    if (IsEditMode)
+    {
+        <p>
+            <form @onsubmit="DeleteArticle" @formname="DeleteArticleForm" method="post">
+                <button type="submit" class="btn btn-danger">Delete Article</button>
+                <AntiforgeryToken />
+            </form>
+        </p>
+    }
+
+
+}
 
 @code {
-    [SupplyParameterFromForm]
-    public ArticleModel Article { get; set; } = new();
+    private bool IsEditMode => ArticleId is not null; // != null //ArticleId.HasValue;
 
-    private async Task HandleSubmit(EditContext arg)
+    [SupplyParameterFromForm]
+    public ArticleModel? Article { get; set; }
+    [Parameter]
+    public int? ArticleId { get; set; }
+
+    protected override async Task OnParametersSetAsync()
     {
-        var command = Article.Adapt<CreateArticleCommand>();
-        var result = await Sender.Send(command);
-        Article = result.Adapt<ArticleModel>();
+        if (ArticleId is not null)
+        {
+            var result = await Sender.Send(new GetArticleByIdQuery { Id = (int)ArticleId });
+            if (result is not null)
+            {
+                Article ??= result.Adapt<ArticleModel>();
+                Article.Id = (int)ArticleId;
+            }
+        }
+        else
+        {
+            Article ??= new();
+        }
+        await base.OnParametersSetAsync();
+    }
+
+    async Task HandleSubmit(EditContext arg)
+    {
+        if (IsEditMode)
+        {
+            var command = Article.Adapt<UpdateArticleCommand>();
+            var result = await Sender.Send(command);
+            if (result is not null)
+            {
+                Article = result.Adapt<ArticleModel>();
+            }
+        }
+        else
+        {
+            var command = Article.Adapt<CreateArticleCommand>();
+            var result = await Sender.Send(command);
+
+            Article = result.Adapt<ArticleModel>();
+            NavigationManager.NavigateTo($"/article-editor/{result.Id}");
+
+            // Article = result.Adapt<ArticleModel>();
+        }
+
+    }
+
+    async Task DeleteArticle()
+    {
+        if (ArticleId is not null)
+        {
+            var command = new DeleteArticleCommand { Id = (int)ArticleId };
+            var isSuccess = await Sender.Send(command);
+            if (isSuccess)
+            {
+                NavigationManager.NavigateTo("/articles");
+            }
+        }
     }
 
 }

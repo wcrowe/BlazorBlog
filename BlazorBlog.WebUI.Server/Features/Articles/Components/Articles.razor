@@ -9,25 +9,18 @@
 @if (_articles.Count > 0)
 {
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Content</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var article in _articles)
-            {
-                <tr>
-                    <td>@article.Id</td>
-                    <td>@article.Title</td>
-                    <td>@article.Content</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+
+    @foreach (var article in _articles)
+    {
+        <div>
+            <h4>@article.Title</h4>
+            <p>@article.Content</p>
+            <small>@article.DatePublished</small>
+            <a href="/article-editor/@article.Id">Edit article @article.Id</a>
+
+        </div>
+    }
+
 }
 else
 {
