@@ -1,6 +1,6 @@
 ﻿namespace BlazorBlog.Application.Articles.GetArticles
 {
-    public class GetArticlesQueryHandler : IQueryHandler<GetArticlesQuery, List<ArticleReponse>>
+    public class GetArticlesQueryHandler : IQueryHandler<GetArticlesQuery, List<ArticleResponse>>
     {
         private readonly IArticleRepository _articleRepository;
 
@@ -9,10 +9,10 @@
             _articleRepository = articleRepository;
         }
 
-        public async Task<Result<List<ArticleReponse>>> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<ArticleResponse>>> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
         {
             var articles = await _articleRepository.GetAllArticlesAsync();
-            return articles.Adapt<List<ArticleReponse>>();
+            return articles.Adapt<List<ArticleResponse>>();
         }
     }
 }

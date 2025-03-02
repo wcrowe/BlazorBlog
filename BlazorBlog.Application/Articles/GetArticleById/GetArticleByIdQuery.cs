@@ -1,6 +1,6 @@
 ﻿namespace BlazorBlog.Application.Articles.GetArticleById
 {
-    public class GetArticleByIdQuery : IQuery<ArticleReponse?>
+    public class GetArticleByIdQuery : IQuery<ArticleResponse?>
     {
         public int Id { get; set; }
 

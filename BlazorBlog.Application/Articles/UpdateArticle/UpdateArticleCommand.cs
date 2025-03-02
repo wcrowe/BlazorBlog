@@ -1,6 +1,6 @@
 ﻿namespace BlazorBlog.Application.Articles.UpdateArticle
 {
-    public class UpdateArticleCommand : ICommnd<ArticleReponse?>
+    public class UpdateArticleCommand : ICommnd<ArticleResponse?>
     {
         public int Id { get; set; }
         public required string Title { get; set; }

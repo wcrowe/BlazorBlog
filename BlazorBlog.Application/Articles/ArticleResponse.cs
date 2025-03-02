@@ -1,6 +1,6 @@
 ﻿namespace BlazorBlog.Application.Articles
 {
-    public record struct ArticleReponse(
+    public record struct ArticleResponse(
             int Id,
             string Title,
             string? Content,

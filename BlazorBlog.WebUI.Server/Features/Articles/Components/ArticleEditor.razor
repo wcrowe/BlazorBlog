@@ -71,7 +71,11 @@ else
             if (result.Success)
             {
                 Article ??= result.Value.Adapt<ArticleModel>();
-                Article.Id = (int)ArticleId;
+                if (Article.Id == null){ //fixed in ArticleCreateCommandHandler
+                    Article.Id = (int)ArticleId;
+                }
+                
+         
             }
             else
             {
