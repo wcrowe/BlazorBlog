@@ -1,5 +1,4 @@
-﻿using BlazorBlog.Application.Articles;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorBlog.Application
 {
