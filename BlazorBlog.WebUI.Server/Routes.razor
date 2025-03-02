@@ -1,6 +1,17 @@
 ﻿<Router AppAssembly="typeof(Program).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)" />
+        <RouteView RouteData="routeData" DefaultLayout="typeof(BlazorLayout)" />
         <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
 </Router>
+@code {
+    // private Type GetLayout(Type routeType)
+    // {
+    //     // Apply BlogLayout to pages in the /blog route
+    //     if (routeType.Namespace?.Contains("Blog") == true)
+    //     {
+    //         return typeof(Blo);
+    //     }
+    //     return typeof(MainLayout);
+    // }
+}

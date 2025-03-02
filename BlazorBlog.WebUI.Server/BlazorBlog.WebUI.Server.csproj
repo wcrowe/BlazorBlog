@@ -17,4 +17,8 @@
     <ProjectReference Include="..\BlazorBlog.Infrastructure\BlazorBlog.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="Shared\BlogLayout.razor" />
+  </ItemGroup>
+
 </Project>
