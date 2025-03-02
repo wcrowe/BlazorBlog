@@ -6,29 +6,33 @@
 <h3>Articles</h3>
 
 <a href="/article-editor" class="btn btn-primary">Create new article</a>
-if (articles is null){
-    <p><em>Loading...</em></p>
-}
-else if (articles.Count == 0){
-    <p><em>No articles found</em></p>
-}
-else{
-    @foreach (var article in articles)
+
+@if (articles is null)
 {
-    <div>
-        <h4>@article.Title</h4>
-        <p>@article.Content</p>
-        <small>@article.DatePublished</small>
-        <a href="/article-editor/@article.Id">Edit article @article.Id</a>
-
-    </div>
-}
-
+    <p><em>Loading...</em></p>
 }
 else
 {
-<p><em>Loading...</em></p>
+    if (articles.Count == 0)
+    {
+        <p><em>No articles found</em></p>
+    }
+    else
+    {
+        @foreach (var article in articles)
+        {
+            <div>
+                <h4>@article.Title</h4>
+                <p>@article.Content</p>
+                <small>@article.DatePublished</small>
+                <a href="/article-editor/@article.Id">Edit article @article.Id</a>
+
+            </div>
+        }
+    }
 }
+
+
 
 @code {
     private List<ArticleReponse>? articles = new();
