@@ -21,4 +21,13 @@
     <AdditionalFiles Include="Shared\BlogLayout.razor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="styles\tailwind.css" />
+    <Content Include="tailwind.config.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\wwwroot\" />
+  </ItemGroup>
+
 </Project>
