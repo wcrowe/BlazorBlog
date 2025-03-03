@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace BlazorBlog.Application.Authentication
 {
-    interface IAuthenticationService
+    public interface IAuthenticationService
     {
+        Task<RegisterUserResponse> RegisterUserAsync(string username,string email, string password);
+        Task<bool> LoginUserAsync(string username, string password);
     }
 }
