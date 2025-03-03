@@ -51,7 +51,7 @@ else
 
 }
 
-<span class="text-danger">@errorMessage</span>
+<span class="text-danger">@_errorMessage</span>
 
 @code {
     private bool IsEditMode => ArticleId is not null; // != null //ArticleId.HasValue;
@@ -62,7 +62,7 @@ else
     [Parameter]
     public int? ArticleId { get; set; }
 
-    private string errorMessage = string.Empty;
+    private string _errorMessage = string.Empty;
     protected override async Task OnParametersSetAsync()
     {
         if (ArticleId is not null)
@@ -71,11 +71,6 @@ else
             if (result.Success)
             {
                 Article ??= result.Value.Adapt<ArticleModel>();
-                if (Article.Id == null){ //fixed in ArticleCreateCommandHandler
-                    Article.Id = (int)ArticleId;
-                }
-                
-         
             }
             else
             {
@@ -144,9 +139,9 @@ else
     void SetErrorMessage(string? message)
     {
         if (message is not null)
-            errorMessage = message;
+            _errorMessage = message;
         else
-            errorMessage = string.Empty;
+            _errorMessage = string.Empty;
     }
 
 }
