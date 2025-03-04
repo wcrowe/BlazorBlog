@@ -24,7 +24,7 @@ namespace BlazorBlog.Infrastructure
         }
 
 
-        private static void AddAuthentication(this IServiceCollection services)
+        private static void AddAuthentication(IServiceCollection services)
         {
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();

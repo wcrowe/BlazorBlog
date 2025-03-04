@@ -8,34 +8,31 @@
 <PageTitle>Register</PageTitle>
 <div class="space-y-6">
     <h2 class="text-3xl font-extrabold text-gray-50 my-6 p-4 bg-gray-800 rounded-lg">Register</h2>
-      <EditForm Model="UserModel" method="post" OnValidSubmit="HandleSubmit" FormName="RegisterUserForm">
+    <EditForm Model="UserModel" method="post" OnValidSubmit="HandleSubmit" FormName="RegisterUserForm">
         <DataAnnotationsValidator />
-        <h2>Create a new account.</h2>
-        <hr />
-        <ValidationSummary class="text-danger" role="alert" />
-        <div class="form-floating mb-3">
-            <InputText id="username" @bind-Value="UserModel.UserName" class="w-full p-3 rounded border border-white dark:bg-gray-100" autocomplete="username" aria-required="true" placeholder="User Name" />
+        <div>
             <label for="username">User Name</label>
+            <InputText id="username" @bind-Value="UserModel.UserName" class="w-full p-3 rounded border border-white dark:bg-gray-100" autocomplete="username" aria-required="true" placeholder="User Name" />
             <ValidationMessage For="() => UserModel.UserName" class="text-danger" />
         </div>
-        <div class="form-floating mb-3">
+        <div>
+            <label for="email">Email</label>
             <InputText id="email" @bind-Value="UserModel.Email" class="w-full p-3 rounded border border-white dark:bg-gray-100" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-             <label for="email">Email</label>
             <ValidationMessage For="() => UserModel.Email" class="text-danger" />
         </div>
-        <div class="form-floating mb-3">
-            <InputText id="password" type="password" @bind-Value="UserModel.Password" class="w-full p-3 rounded border border-white dark:bg-gray-100" autocomplete="new-password" aria-required="true" placeholder="password" />
+        <div>
             <label for="password">Password</label>
+            <InputText id="password" type="password" @bind-Value="UserModel.Password" class="w-full p-3 rounded border border-white dark:bg-gray-100" autocomplete="new-password" aria-required="true" placeholder="password" />
             <ValidationMessage For="() => UserModel.Password" class="text-danger" />
         </div>
-        <div class="form-floating mb-3">
-            <InputText id="confirm-password" type="password" @bind-Value="UserModel.ConfirmPassword" class="w-full p-3 rounded border border-white dark:bg-gray-100" autocomplete="new-password" aria-required="true" placeholder="password" />
+        <div>
             <label for="confirm-password">Confirm Password</label>
+            <InputText id="confirm-password" type="password" @bind-Value="UserModel.ConfirmPassword" class="w-full p-3 rounded border border-white dark:bg-gray-100" autocomplete="new-password" aria-required="true" placeholder="password" />
             <ValidationMessage For="() => UserModel.ConfirmPassword" class="text-danger" />
         </div>
         <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
     </EditForm>
- 
+
 </div>
 
 @code {
