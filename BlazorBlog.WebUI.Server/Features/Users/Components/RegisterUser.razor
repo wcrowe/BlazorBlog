@@ -11,26 +11,26 @@
     <EditForm Model="UserModel" method="post" OnValidSubmit="HandleSubmit" FormName="RegisterUserForm">
         <DataAnnotationsValidator />
         <div class="relative">
-            <label for="username" class="absolute left-3 top-2 text-gray-500 text-sm">User Name</label>
+            <label for="username" class="text-sm">User Name</label>
             <InputText id="username" @bind-Value="UserModel.UserName" class="w-full border border-gray-300 rounded-md p-3 focus:ring focus:ring-blue-300" autocomplete="username" aria-required="true" placeholder="User Name" />
             <ValidationMessage For="() => UserModel.UserName" class="text-red-500 text-sm" />
         </div>
         <div class="relative">
-            <label for="email" class="absolute left-3 top-2 text-gray-500 text-sm">Email</label>
+            <label for="email" class="text-sm">Email</label>
             <InputText id="email" @bind-Value="UserModel.Email" class="w-full p-3 rounded border border-white dark:bg-gray-100w-full p-3 rounded dark:bg-gray-100w-full border border-gray-300 rounded-md p-3 focus:ring focus:ring-blue-300" autocomplete="username" aria-required="true" placeholder="name@example.com" />
             <ValidationMessage For="() => UserModel.Email" class="text-red-500 text-sm" />
         </div>
         <div class="relative">
-            <label for="password" class="absolute left-3 top-2 text-gray-500 text-sm">Password</label>
+            <label for="password" class="text-sm">Password</label>
             <InputText id="password" type="password" @bind-Value="UserModel.Password" class="w-full border border-gray-300 rounded-md p-3 focus:ring focus:ring-blue-300" autocomplete="new-password" aria-required="true" placeholder="password" />
             <ValidationMessage For="() => UserModel.Password" class="text-red-500 text-sm" />
         </div>
         <div class="relative">
-            <label for="confirm-password" class="absolute left-3 top-2 text-gray-500 text-sm">Confirm Password</label>
+            <label for="confirm-password" class="text-sm">Confirm Password</label>
             <InputText id="confirm-password" type="password" @bind-Value="UserModel.ConfirmPassword" class="w-full border border-gray-300 rounded-md p-3 focus:ring focus:ring-blue-300" autocomplete="new-password" aria-required="true" placeholder="password" />
             <ValidationMessage For="() => UserModel.ConfirmPassword" class="text-red-500 text-sm" />
         </div>
-        <button type="submit" class="px-8 py-3 font-semibold rounded dark:bg-gray-800 dark:text-gray-100">Register</button>
+        <button type="submit" class="px-4 py-2 border rounded-md dark:border-gray-800">Register</button>
     </EditForm>
 
 </div>

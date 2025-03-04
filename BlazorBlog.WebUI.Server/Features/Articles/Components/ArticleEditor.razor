@@ -20,22 +20,22 @@ else
     <EditForm Model="Article" OnSubmit="HandleSubmit" FormName="ArticleEditorForm" class="space-y-6">
         <div>
             <label for="title" class="text-sm">Title</label>
-            <InputText id="title" @bind-Value="Article.Title" class="w-full p-3 rounded border border-white dark:bg-gray-100" />
+            <InputText id="title" @bind-Value="Article.Title" class="w-full border border-gray-300 rounded-md p-3 focus:ring focus:ring-blue-300" />
         </div>
 
         <div>
             <label for="content" class="text-sm">Conent</label>
-            <InputTextArea id="content" @bind-Value="Article.Content" class="w-full p-3 rounded border border-white dark:bg-gray-100" />
+            <InputTextArea id="content" @bind-Value="Article.Content" class="w-full border border-gray-300 rounded-md p-3 focus:ring focus:ring-blue-300" />
         </div>
         <div>
             <label for="datePublished" class="text-sm">Date Published</label>
-            <InputDate id="datePublished" @bind-Value="Article.DatePublished" class="w-full p-3 rounded border border-white dark:bg-gray-100" />
+            <InputDate id="datePublished" @bind-Value="Article.DatePublished" class="w-full border border-gray-300 rounded-md p-3 focus:ring focus:ring-blue-300" />
         </div>
         <div>
             <InputCheckbox @bind-Value="Article.IsPublished" class="w-5 h-5 text-blue-600 bg-white border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 checked:bg-blue-600 checked:border-blue-600 dark:bg-gray-800 dark:border-gray-600 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-blue-600" />
             <label class="ml-2 text-sm text-gray-900 dark:text-gray-100">Is Published</label>
         </div>
-        <button type="submit" class="w-full p-3 text-sm font-bold tracking-wide uppercase rounded bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition">Submit</button>
+        <button type="submit" class="px-4 py-2 border rounded-md dark:border-gray-800">Submit</button>
     </EditForm>
 
     if (IsEditMode)
