@@ -5,6 +5,19 @@
     --color-red-400: oklch(0.69 0.22 25.331); /* Optional: lighter red for dark mode */
 }
 
+
+/* Light mode: White icon with dark background for visibility */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: white; /* Attempt direct color change */
+    filter: invert(1); /* Forces icon to white by inverting black */
+    background-color: rgba(0, 0, 0, 0.1); /* Slight background for contrast */
+}
+
+/* Dark mode: White icon, no background adjustment needed */
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+    color: white;
+    filter: invert(1); /* Ensures white against dark:bg-gray-900 */
+}
 .error-text {
     @apply !text-red-500 dark:!text-red-400 text-sm mt-1 block;
 }
