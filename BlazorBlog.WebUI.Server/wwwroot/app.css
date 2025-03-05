@@ -275,9 +275,6 @@
   .bottom-100 {
     bottom: calc(var(--spacing) * 100);
   }
-  .left-0 {
-    left: calc(var(--spacing) * 0);
-  }
   .isolate {
     isolation: isolate;
   }

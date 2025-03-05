@@ -30,19 +30,21 @@
             </button>
             @if (IsMenuOpen)
             {
-                <div class="fixed right-0 z-10 w-full h-full duration-300 ease-in-out transform @(IsMenuOpen ? "translate-x-0" : "translate-x-full") top-24 bg-gray-200 dark:bg-gray-100">
-                    <button type="button" aria-label="Close Menu" class="fixed inset-0 z-20 w-full h-full bg-transparent" @onclick="ToggleMenu"></button>
-                    <nav class="fixed top-24 left-0 w-64 h-full mt-8 bg-gray-200 dark:bg-gray-100 z-10">
-                        <div class="px-12 py-4">
-                            <a rel="noopener noreferrer" href="/" class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-900" @onclick="ToggleMenu">Articles</a>
-                        </div>
-                        <div class="px-12 py-4">
-                            <a rel="noopener noreferrer" href="/register" class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-900" @onclick="ToggleMenu">Register</a>
-                        </div>
-                        <div class="px-12 py-4">
-                            <a rel="noopener noreferrer" href="/login" class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-900" @onclick="ToggleMenu">Login</a>
-                        </div>
-                    </nav>
+                <div>
+                    <div class="fixed right-0 top-24 z-10 w-64 h-full duration-300 ease-in-out transform @(IsMenuOpen ? "translate-x-0" : "translate-x-full") bg-gray-200 dark:bg-gray-100">
+                        <nav class="mt-8">
+                            <div class="px-12 py-4">
+                                <a rel="noopener noreferrer" href="/" class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-900" @onclick="ToggleMenu">Articles</a>
+                            </div>
+                            <div class="px-12 py-4">
+                                <a rel="noopener noreferrer" href="/register" class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-900" @onclick="ToggleMenu">Register</a>
+                            </div>
+                            <div class="px-12 py-4">
+                                <a rel="noopener noreferrer" href="/login" class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-900" @onclick="ToggleMenu">Login</a>
+                            </div>
+                        </nav>
+                    </div>
+                    <button type="button" aria-label="Close Menu" class="fixed inset-0 z-20 bg-transparent" @onclick="ToggleMenu"></button>
                 </div>
             }
         </div>
