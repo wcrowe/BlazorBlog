@@ -1,0 +1,50 @@
+﻿@page "/Login"
+<h3>LoginUser</h3>
+
+
+@inject ISender Sender
+@inject NavigationManager NavigationManager
+
+<PageTitle>Login</PageTitle>
+<div class="space-y-6">
+    <h2 class="text-3xl font-extrabold text-gray-900 dark:text-gray-100 my-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">Login</h2>
+    <EditForm Model="UserModel" method="post" OnValidSubmit="HandleSubmit" FormName="LoginUserForm" class="space-y-6">
+        <DataAnnotationsValidator />
+        <div class="relative">
+            <label for="username" class="text-sm text-gray-700 dark:text-gray-300">User Name</label>
+            <InputText id="username" @bind-Value="UserModel.UserName" class="w-full border border-gray-300 dark:border-gray-600 rounded-md p-3 focus:ring focus:ring-blue-300 dark:bg-gray-800 dark:text-gray-100" autocomplete="username" aria-required="true" placeholder="User Name" />
+            <ValidationMessage For="() => UserModel.UserName" class="error-text" />
+        </div>
+        <div class="relative">
+            <label for="password" class="text-sm text-gray-700 dark:text-gray-300">Password</label>
+            <InputText id="password" type="password" @bind-Value="UserModel.Password" class="w-full border border-gray-300 dark:border-gray-600 rounded-md p-3 focus:ring focus:ring-blue-300 dark:bg-gray-800 dark:text-gray-100" autocomplete="new-password" aria-required="true" placeholder="password" />
+            <ValidationMessage For="() => UserModel.Password" class="error-text" />
+        </div>
+        <button type="submit" class="px-4 py-2 border rounded-md border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">Login</button>
+    </EditForm>
+    <span class="alert-danger text-red-500 dark:text-red-400">@errorMessage</span>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private LoginUserModel  UserModel { get; set; } = new();
+    private string errorMessage = string.Empty;
+
+    async Task HandleSubmit()
+    {
+        var command = new LoginUserCommand
+            {
+                UserName = UserModel.UserName,
+                Password = UserModel.Password
+            };
+        var result = await Sender.Send(command);
+        if (result.Success)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            errorMessage = result.Error ?? "Login failed";
+        }
+    }
+}
