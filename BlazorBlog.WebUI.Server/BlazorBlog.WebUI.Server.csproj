@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <Content Include="styles\input.css" />
-    <Content Include="tailwind.config.js" />
   </ItemGroup>
 
   <ItemGroup>
