@@ -29,9 +29,7 @@ namespace BlazorBlog.Infrastructure
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
             services.AddCascadingAuthenticationState();
-            services.AddAuthorization(o => {
-                o.DefaultPolicy = Authentication.AuthenticationService }); 
-                                                            });
+            services.AddAuthorization();
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = IdentityConstants.ApplicationScheme;
