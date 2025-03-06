@@ -1,12 +1,28 @@
 ﻿@inject IJSRuntime JS
 
 <header class="container flex items-center justify-between w-full max-w-3xl px-6 py-10 mx-auto xl:max-w-5xl">
-    <a rel="noopener noreferrer" href="/" class="block h-6 text-2xl font-semibold text-gray-900 dark:text-gray-100">Leroy Jenkins</a>
+    <AuthorizeView>
+        <Authorized>
+            <span rel="noopener noreferrer" class="block h-6 text-2xl font-semibold text-gray-900 dark:text-gray-100">@context.User.Identity?.Name</span>
+    </Authorized>
+    <NotAuthorized>
+            <span rel="noopener noreferrer" class="block h-6 text-2xl font-semibold text-gray-900 dark:text-gray-100">Hello</span>
+    </NotAuthorized>
+    </AuthorizeView>
     <div class="flex items-center">
         <div class="hidden space-x-2 font-medium sm:block">
-            <a rel="noopener noreferrer" href="/" class="p-1 text-gray-700 dark:text-gray-200">Articles</a>
-            <a rel="noopener noreferrer" href="/register" class="p-1 text-gray-700 dark:text-gray-200">Register</a>
-            <a rel="noopener noreferrer" href="/login" class="p-1 text-gray-700 dark:text-gray-200">Login</a>
+            <AuthorizeView>
+                <Authorized>
+                    <a rel="noopener noreferrer" href="/" class="p-1 text-gray-700 dark:text-gray-200">Articles</a>
+                    <a rel="noopener noreferrer" href="/logout" class="p-1 text-gray-700 dark:text-gray-200">Logout</a>
+                </Authorized>
+
+                <NotAuthorized>
+                    <a rel="noopener noreferrer" href="/register" class="p-1 text-gray-700 dark:text-gray-200">Register</a>
+
+                    <a rel="noopener noreferrer" href="/login" class="p-1 text-gray-700 dark:text-gray-200">Login</a>
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
         <div class="sm:hidden">
             <button type="button" aria-label="Toggle Menu" class="w-8 h-8 ml-1 mr-1 rounded" @onclick="ToggleMenu">
@@ -19,15 +35,24 @@
                 <div>
                     <div class="fixed right-0 top-24 z-10 w-64 h-full duration-300 ease-in-out transform @(IsMenuOpen ? "translate-x-0" : "translate-x-full") bg-gray-200 dark:bg-gray-100">
                         <nav class="mt-8">
-                            <div class="px-12 py-4">
-                                <a rel="noopener noreferrer" href="/" class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-900" @onclick="ToggleMenu">Articles</a>
-                            </div>
-                            <div class="px-12 py-4">
-                                <a rel="noopener noreferrer" href="/register" class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-900" @onclick="ToggleMenu">Register</a>
-                            </div>
-                            <div class="px-12 py-4">
-                                <a rel="noopener noreferrer" href="/login" class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-900" @onclick="ToggleMenu">Login</a>
-                            </div>
+                            <AuthorizeView>
+                                <Authorized>
+                                    <div class="px-12 py-4">
+                                        <a rel="noopener noreferrer" href="/" class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-900" @onclick="ToggleMenu">Articles</a>
+                                    </div>
+                                    <div class="px-12 py-4">
+                                        <a rel="noopener noreferrer" href="/logoff" class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-900" @onclick="ToggleMenu">Logoff</a>
+                                    </div>
+                                </Authorized>
+                                <NotAuthorized>
+                                    <div class="px-12 py-4">
+                                        <a rel="noopener noreferrer" href="/register" class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-900" @onclick="ToggleMenu">Register</a>
+                                    </div>
+                                    <div class="px-12 py-4">
+                                        <a rel="noopener noreferrer" href="/login" class="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-900" @onclick="ToggleMenu">Login</a>
+                                    </div>
+                                </NotAuthorized>
+                            </AuthorizeView>
                         </nav>
                     </div>
                     <button type="button" aria-label="Close Menu" class="fixed inset-0 z-20 bg-transparent" @onclick="ToggleMenu"></button>
@@ -46,7 +71,7 @@
         // if (firstRender)
         // {
         //     await JS.InvokeVoidAsync("initDarkMode");
-        //     IsDarkMode = await JS.InvokeAsync<bool>("document.documentElement.classList.contains", "dark");
+        //     IsDarkMode = await JS.InvokeAsync<Abool>("document.documentElement.classList.contains", "dark");
         // }
     }
 
