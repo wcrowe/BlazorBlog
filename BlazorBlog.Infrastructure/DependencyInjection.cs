@@ -29,14 +29,15 @@ namespace BlazorBlog.Infrastructure
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
             services.AddCascadingAuthenticationState();
-            services.AddAuthorization();
-            services.AddAuthentication(option =>
+            services.AddAuthorization(o => {
+                o.DefaultPolicy = Authentication.AuthenticationService }); 
+                                                            });
+            services.AddAuthentication(options =>
             {
-                option.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
-
-                option.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-
-            }).AddIdentityCookies();
+                options.DefaultScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            })
+                .AddIdentityCookies();
             services.AddIdentityCore<User>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddSignInManager()

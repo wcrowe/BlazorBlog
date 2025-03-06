@@ -27,21 +27,29 @@
                         <article>
                             <dl>
                                 <dt class="sr-only">Published on</dt>
-                                <dd class="text-xs text-gray-600">
-                                    <time>@article.DatePublished</time>
+                                <dd class="text-xs dark:text-gray-600">
+                                    <time datetime="@article.DatePublished.ToString("yyyy-MM-dd")">@article.DatePublished.ToString("MMMM dd, yyyy")</time>
                                 </dd>
                             </dl>
                             <div class="space-y-1">
                                 <h3 class="text-2xl font-bold tracking-tight">
-                                    <a rel="noopener noreferrer" href="#" class="text-gray-300">@article.Title</a>
+                                    <a rel="noopener noreferrer" href="#" class="dark:text-gray-600">@article.Title</a>
                                 </h3>
-                                <p class="max-w-full text-gray-800 prose prose-invert">@article.Content</p>
+                                <p class="max-w-full dark:text-gray-800 prose prose-invert">@article.Content</p>
                                 <div class="flex flex-wrap space-x-3">
                                     <AuthorizeView>
                                         <Authorized>
-                                            <a href="/article-editor/@article.Id" class="text-xs text-default-600">Edit article @article.Id</a>
+                                            <a href="/article-editor/@article.Id" class="block my-2 py-4 text-xs dark:text-sky-600 border">Edit article @article.Id</a>
                                         </Authorized>
                                     </AuthorizeView>
+                                    @* Optional: Add hashtag links if your ArticleResponse model supports tags *@
+ @*                                    @if (article.Tags?.Any() == true)
+                                    {
+                                        foreach (var tag in article.Tags)
+                                        {
+                                            <a rel="noopener noreferrer" href="#" class="text-xs dark:text-sky-600">#@tag</a>
+                                        }
+                                    } *@
                                 </div>
                             </div>
                         </article>
@@ -63,4 +71,6 @@
         else
             articles = new();
     }
+
+
 }
