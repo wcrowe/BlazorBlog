@@ -5,7 +5,6 @@
 @using BlazorBlog.Infrastructure.Authentication
 @inject ISender Sender
 @inject NavigationManager NavigationManager
-@* @inject UserManager<User> UserManager *@
 @inject ICurrentUserService CurrentUserService
 @attribute [Authorize]
 
@@ -66,9 +65,6 @@ else
     [Parameter]
     public int? ArticleId { get; set; }
 
-    // [CascadingParameter]
-    // HttpContext? HttpContext { get; set; } = default!;
-
 
     private string _errorMessage = string.Empty;
 
@@ -111,14 +107,6 @@ else
         else
         {
             var command = Article.Adapt<CreateArticleCommand>();
-            // if (HttpContext?.User is not null)
-            // {
-            //     var user = await UserManager.GetUserAsync(HttpContext.User);
-            //     if (user is not null)
-            //     {
-            //         command.UserId = user.Id;
-            //     }
-            // }
             var userId = await CurrentUserService.GetUserIdAsync();
             if (userId is not null)
             {
