@@ -31,6 +31,8 @@ namespace BlazorBlog.Infrastructure
             services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationMiddlewareResultHandler>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
+            services.AddHttpContextAccessor(); // Needed for IHttpContextAccessor
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddCascadingAuthenticationState();
             services.AddAuthorization();
             services.AddAuthentication(options =>
