@@ -70,12 +70,14 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
+
         if (ArticleId is not null)
         {
             var result = await Sender.Send(new GetArticleByIdQuery { Id = (int)ArticleId });
             if (result.Success)
             {
                 Article ??= result.Value.Adapt<ArticleModel>();
+                Article.Id = (int)ArticleId;
             }
             else
             {
