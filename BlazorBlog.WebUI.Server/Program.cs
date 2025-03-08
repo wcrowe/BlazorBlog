@@ -29,8 +29,8 @@ app.UseStaticFiles();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>().AllowAnonymous();
-    
-    //[RenderModels].AddAdditionalAssemblies(typeof(Client._Imports).Assembly)
-    //.AllowAnonymous();
+
+//[RenderModels].AddInteractiveServerRenderMode().AddAdditionalAssemblies(typeof(Client._Imports).Assembly)
+//.AllowAnonymous();
 
 app.Run();
