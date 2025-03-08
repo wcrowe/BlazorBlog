@@ -30,7 +30,7 @@ namespace BlazorBlog.Infrastructure
 
         private static void AddAuthentication(IServiceCollection services)
         {
-            services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationMiddlewareResultHandler>();
+       //     services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationMiddlewareResultHandler>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
             services.AddHttpContextAccessor(); // Needed for IHttpContextAccessor
