@@ -2,6 +2,7 @@
 using BlazorBlog.Domain.Articles;
 using BlazorBlog.Infrastructure.Authentication;
 using BlazorBlog.Infrastructure.Repository;
+using BlazorBlog.Domain.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
@@ -21,6 +22,7 @@ namespace BlazorBlog.Infrastructure
                     configuration.GetConnectionString("DefaultConnection")));
             AddAuthentication(services);
             services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<IUserRepositiory, UserRepositiory>();
             return services;
         }
 

@@ -26,6 +26,12 @@
                     <li>
                         <article>
                             <dl>
+                                <dt class="sr-only">Published by</dt>
+                                <dd class="text-xs dark\:text-gray-100">
+                                    <h3>@article.UserName</h3>
+                                </dd>
+                            </dl>
+                            <dl>
                                 <dt class="sr-only">Published on</dt>
                                 <dd class="text-xs dark:text-gray-600">
                                     <time datetime="@article.DatePublished.ToString("yyyy-MM-dd")">@article.DatePublished.ToString("MMMM dd, yyyy")</time>
