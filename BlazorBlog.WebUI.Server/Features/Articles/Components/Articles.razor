@@ -45,8 +45,11 @@
                                 <div class="flex flex-wrap space-x-3">
                                     <AuthorizeView>
                                         <Authorized>
-                                            <a href="/article-editor/@article.Id" class="block my-2 py-4 text-xs dark:text-sky-600 border">Edit article @article.Id</a>
-                                        </Authorized>
+                                            <a href="/article-editor/@article.Id"
+                                               class="inline-flex items-center justify-center px-4 py-2 border border-sky-600 text-sky-600 dark:text-sky-600 rounded-md text-sm font-semibold transition hover:bg-sky-600 hover:text-white dark:hover:bg-sky-500 dark:hover:border-sky-500">
+                                                Edit Article @article.Id
+                                            </a>
+                                          </Authorized>
                                     </AuthorizeView>
                                     @* Optional: Add hashtag links if your ArticleResponse model supports tags *@
  @*                                    @if (article.Tags?.Any() == true)

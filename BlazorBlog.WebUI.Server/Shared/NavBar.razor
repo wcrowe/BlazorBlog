@@ -66,14 +66,14 @@
     private bool IsMenuOpen { get; set; } = false;
     private bool IsDarkMode { get; set; } = false;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        // if (firstRender)
-        // {
-        //     await JS.InvokeVoidAsync("initDarkMode");
-        //     IsDarkMode = await JS.InvokeAsync<Abool>("document.documentElement.classList.contains", "dark");
-        // }
-    }
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     // if (firstRender)
+    //     // {
+    //     //     await JS.InvokeVoidAsync("initDarkMode");
+    //     //     IsDarkMode = await JS.InvokeAsync<Abool>("document.documentElement.classList.contains", "dark");
+    //     // }
+    // }
 
     // private async Task ToggleDarkMode()
     // {
@@ -85,4 +85,5 @@
     {
         IsMenuOpen = !IsMenuOpen;
     }
+  
 }
