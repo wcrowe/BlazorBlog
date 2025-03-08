@@ -10,8 +10,8 @@
 
 @if (IsEditMode && Article is not null)
 {
-    <PageTitle>Edit Article "@Article.Title"</PageTitle>
-    <h2 class="text-3xl font-extrabold text-gray-900 dark:text-gray-100 my-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">Edit Article "@Article.Title"</h2>
+    <PageTitle>Edit Article "@Article.Title" By "@Article.UserName"</PageTitle>
+    <h2 class="text-3xl font-extrabold text-gray-900 dark:text-gray-100 my-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">Edit Article "@Article.Title" By "@Article.UserName"</h2>
 }
 else
 {
@@ -98,6 +98,7 @@ else
             if (result.Success)
             {
                 Article = result.Value.Adapt<ArticleModel>();
+     
             }
             else
             {
