@@ -67,20 +67,17 @@ else
     public int? ArticleId { get; set; }
 
     [CascadingParameter]
-    public HttpContext context { get; set; } = default;
+    public HttpContext context { get; set; } = default!;
 
     protected override async Task OnParametersSetAsync()
     {
+
         if (ArticleId is not null)
         {
-            var result = await Sender.Send(
-                new GetArticleByIdQuery { Id = (int)ArticleId }
-            );
-
+            var result = await Sender.Send(new GetArticleByIdQuery { Id = (int)ArticleId });
             if (result.Success)
             {
-                // we will change this later...
-                Article ??= result.Value.Adapt<ArticleModel>();
+                Article ??= ((ArticleResponse?)result).Adapt<ArticleModel>();
                 Article.Id = (int)ArticleId;
             }
             else
@@ -90,13 +87,14 @@ else
         }
         else
         {
-            // ??=  Only sets it if it is null
             Article ??= new();
         }
+
     }
 
 
-    async Task HandleSubmit()
+
+    private async Task HandleSubmit()
     {
         if (isEditMode)
         {
@@ -105,12 +103,7 @@ else
             if (result.Success)
             {
                 Article = result.Value.Adapt<ArticleModel>();
-                var user = await UserManager.GetUserAsync(context.User);
-                if (user is not null)
-                {
-                    Article.UserName = user.UserName ?? "Unknown";
-                };
-
+         
             }
             else
             {
@@ -120,19 +113,21 @@ else
         else
         {
             var command = Article.Adapt<CreateArticleCommand>();
-            command.UserId = UserManager.GetUserId(context.User);
-
+            command.DatePublished = DateTime.UtcNow;
             var result = await Sender.Send(command);
+            //Article = result.Adapt<ArticleModel>();
             if (result.Success)
             {
-                NavigationManager.NavigateTo($"/article-editor/{result.Value.Id}");
+                NavigationManager.NavigateTo($"/article-editor/{result?.Value.Id}");
             }
             else
             {
                 SetErrorMessage(result.Error);
             }
+
         }
     }
+
 
     async Task DeleteArticle()
     {

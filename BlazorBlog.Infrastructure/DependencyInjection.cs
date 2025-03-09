@@ -24,6 +24,7 @@ namespace BlazorBlog.Infrastructure
             AddAuthentication(services);
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IUserRepository, UserRepositiory>();
+          //  services.AddMapster();
             return services;
         }
 

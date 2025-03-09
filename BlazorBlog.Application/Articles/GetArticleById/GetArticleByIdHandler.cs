@@ -15,27 +15,27 @@ namespace BlazorBlog.Application.Articles.GetArticleById
 
         public async Task<Result<ArticleResponse?>> Handle(GetArticleByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = await _articleRepository.GetArticleByIdAsync(request.Id);
-            var response = new ArticleResponse();
+            var article = await _articleRepository.GetArticleByIdAsync(request.Id);
+     
 
-            if (result is null)
+            if (article is null)
             {
                 return Result.Fail<ArticleResponse?>("The article does not exist.");
             }
             else
             {
-                response = result.Adapt<ArticleResponse>();
-                if (result.UserId is not null)
+                var articleResponse = article.Adapt<ArticleResponse>();
+                if (article.UserId is not null)
                 {
-                    var author = await _userRepository.GetUserByIdAsync(result.UserId);
-                    response.UserName = author?.UserName ?? "Unknown";
+                    var author = await _userRepository.GetUserByIdAsync(article.UserId);
+                    articleResponse.UserName = author?.UserName ?? "Unknown";
                 }
                 else
                 {
-                    response.UserName = "Unknown";
+                    articleResponse.UserName = "Unknown";
                 }
-                return response;
-            }
+                return articleResponse;
+        }
         }
     }
 }
