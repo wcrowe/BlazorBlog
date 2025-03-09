@@ -7,7 +7,7 @@
 @inject NavigationManager NavigationManager
 @* @inject ICurrentUserService CurrentUserService *@
 @inject UserManager<User> UserManager
-@attribute [Authorize]
+@attribute [Authorize(Roles ="Admin,Writer")]
 
 @if (isEditMode && Article is not null)
 {

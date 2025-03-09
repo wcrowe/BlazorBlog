@@ -17,7 +17,7 @@
         }
         else
         {
-            <AuthorizeView>
+            <AuthorizeView Roles="Admin, Writer">
                 <a href="/article-editor" class="block w-42 px-4 py-4 my-4 border rounded-md border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">Create new article</a>
             </AuthorizeView>
             <ul class="space-y-8 xl:space-y-10">

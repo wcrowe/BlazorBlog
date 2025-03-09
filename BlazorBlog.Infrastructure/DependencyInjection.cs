@@ -46,6 +46,7 @@ namespace BlazorBlog.Infrastructure
             })
                 .AddIdentityCookies();
             services.AddIdentityCore<User>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddSignInManager()
                 .AddDefaultTokenProviders();
