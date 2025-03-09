@@ -105,6 +105,12 @@ else
             if (result.Success)
             {
                 Article = result.Value.Adapt<ArticleModel>();
+                var user = await UserManager.GetUserAsync(context.User);
+                if (user is not null)
+                {
+                    Article.UserName = user.UserName ?? "Unknown";
+                };
+
             }
             else
             {
