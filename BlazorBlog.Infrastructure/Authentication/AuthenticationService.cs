@@ -32,6 +32,7 @@ namespace BlazorBlog.Infrastructure.Authentication
                 EmailConfirmed = true, // assume true for now -- confirmation is not required for now
             };
             var result = await _userManager.CreateAsync(user, password);
+            await _userManager.AddToRoleAsync(user, "Reader");
             var response = new RegisterUserResponse
             {
                 Successed = result.Succeeded,
