@@ -1,42 +1,41 @@
-﻿using BlazorBlog.Domain.Users;
+﻿using BlazingBlog.Domain.Users;
+using BlazorBlog.Domain.Users;
 
 namespace BlazorBlog.Application.Articles.GetArticleById
 {
-    public class GetArticleByIdHandler : IQueryHandler<GetArticleByIdQuery, ArticleResponse?>
+    public class GetArticleByIdQueryHandler : IQueryHandler<GetArticleByIdQuery, ArticleResponse?>
     {
         private readonly IArticleRepository _articleRepository;
-        private readonly IUserRepositiory _userRepositiory;
-        public GetArticleByIdHandler(IArticleRepository articleRepository, IUserRepositiory userRepositiory)
+        private readonly IUserRepository _userRepository;
+        public GetArticleByIdQueryHandler(IArticleRepository articleRepository, IUserRepository userRepository)
         {
             _articleRepository = articleRepository;
-            _userRepositiory = userRepositiory;
+            _userRepository = userRepository;
         }
+
         public async Task<Result<ArticleResponse?>> Handle(GetArticleByIdQuery request, CancellationToken cancellationToken)
         {
-  
-            var article = await _articleRepository.GetArticleByIdAsync(request.Id);
-            var articleResponse = article.Adapt<ArticleResponse>();
-            if (article is not null)
+            var result = await _articleRepository.GetArticleByIdAsync(request.Id);
+            var response = new ArticleResponse();
+
+            if (result is null)
             {
-                if (article.UserId is not null)
+                return Result.Fail<ArticleResponse?>("The article does not exist.");
+            }
+            else
+            {
+                response = result.Adapt<ArticleResponse>();
+                if (result.UserId is not null)
                 {
-                    var author = await _userRepositiory.GetUserByIdAsync(article.UserId);
-                    if (author is not null)
-                    {
-                        articleResponse.UserName = author.UserName ?? "Unknown";
-                    }else
-                    {
-                        articleResponse.UserName = "Unknown";
-                    }
+                    var author = await _userRepository.GetUserByIdAsync(result.UserId);
+                    response.UserName = author?.UserName ?? "Unknown";
                 }
-
-
+                else
+                {
+                    response.UserName = "Unknown";
+                }
+                return response;
             }
-            if (article is null)
-            {
-                return Result.Fail<ArticleResponse?>("Article not found");
-            }
-            return articleResponse;
         }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using BlazingBlog.Domain.Users;
 
 namespace BlazorBlog.Infrastructure
 {
@@ -22,7 +23,7 @@ namespace BlazorBlog.Infrastructure
                     configuration.GetConnectionString("DefaultConnection")));
             AddAuthentication(services);
             services.AddScoped<IArticleRepository, ArticleRepository>();
-            services.AddScoped<IUserRepositiory, UserRepositiory>();
+            services.AddScoped<IUserRepository, UserRepositiory>();
             return services;
         }
 

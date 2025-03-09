@@ -9,8 +9,7 @@ namespace BlazorBlog.Infrastructure.Authentication
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-
-        public AuthenticationService(UserManager<User> userManager, SignInManager<User> signInManager )
+        public AuthenticationService(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -18,27 +17,28 @@ namespace BlazorBlog.Infrastructure.Authentication
 
         public async Task<bool> LoginUserAsync(string username, string password)
         {
+            // come back to set the isPersistent from the checkbox... 
+            // 4th param is lockout -- we can come back to this
             var result = await _signInManager.PasswordSignInAsync(username, password, false, false);
             return result.Succeeded;
-
         }
 
         public async Task<RegisterUserResponse> RegisterUserAsync(string username, string email, string password)
         {
-            var newUser = new User
+            var user = new User
             {
                 UserName = username,
                 Email = email,
-                EmailConfirmed = true
+                EmailConfirmed = true, // assume true for now -- confirmation is not required for now
             };
-
-            var result = await _userManager.CreateAsync(newUser, password);
-            var response = new RegisterUserResponse()
+            var result = await _userManager.CreateAsync(user, password);
+            var response = new RegisterUserResponse
             {
                 Successed = result.Succeeded,
                 Errors = result.Errors.Select(e => e.Description).ToList()
             };
             return response;
         }
+
     }
 }

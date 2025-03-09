@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BlazorBlog.Domain.Users;
 
-namespace BlazorBlog.Domain.Users
+namespace BlazingBlog.Domain.Users
 {
-    public interface IUserRepositiory
+    public interface IUserRepository
     {
         Task<IUser?> GetUserByIdAsync(string userId);
     }

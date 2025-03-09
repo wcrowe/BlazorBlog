@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlazorBlog.Domain.Articles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,10 @@ namespace BlazorBlog.Domain.Users
 {
     public interface IUser
     {
-        public  string Id { get; set; }
+        public string Id { get; set; }
         public string? UserName { get; set; }
         public string? Email { get; set; }
-        public List<Articles.Article> Articles { get; set; }
+        public List<Article> Articles { get; set; }
         //string PasswordHash { get; set; }
         //string SecurityStamp { get; set; }
         //string DisplayName { get; set; }

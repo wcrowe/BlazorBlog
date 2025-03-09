@@ -1,4 +1,5 @@
-﻿using BlazorBlog.Domain.Users;
+﻿using BlazingBlog.Domain.Users;
+using BlazorBlog.Domain.Users;
 using BlazorBlog.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlazorBlog.Infrastructure.Repository
 {
-    public class UserRepositiory : IUserRepositiory
+    public class UserRepositiory : IUserRepository
     {
         private readonly UserManager<User>? _userManager;
 

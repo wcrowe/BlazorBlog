@@ -1,44 +1,40 @@
-﻿using BlazorBlog.Domain.Users;
+﻿using BlazingBlog.Domain.Users;
+using BlazorBlog.Domain.Users;
 
 namespace BlazorBlog.Application.Articles.GetArticles
 {
     public class GetArticlesQueryHandler : IQueryHandler<GetArticlesQuery, List<ArticleResponse>>
     {
         private readonly IArticleRepository _articleRepository;
-        private readonly IUserRepositiory _userRepositiory;
-
-        public GetArticlesQueryHandler(IArticleRepository articleRepository, IUserRepositiory userRepositiory)
+        private readonly IUserRepository _userRepository;
+        public GetArticlesQueryHandler(IArticleRepository articleRepository, IUserRepository userRepository)
         {
             _articleRepository = articleRepository;
-            _userRepositiory = userRepositiory;
+            _userRepository = userRepository;
         }
 
         public async Task<Result<List<ArticleResponse>>> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
         {
             var articles = await _articleRepository.GetAllArticlesAsync();
-            var respose = new List<ArticleResponse>();
-            if (articles is not null)
+
+            var response = new List<ArticleResponse>();
+
+            foreach (var article in articles)
             {
-                foreach (var article in articles)
+                var articleResponse = article.Adapt<ArticleResponse>();
+                if (article.UserId is not null)
                 {
-                    var articleResponse = article.Adapt<ArticleResponse>();
-                    if (article.UserId is null)
-                    {
-                        articleResponse.UserName = "Unknown";
-                        respose.Add(articleResponse);
-                        continue;
-                    }
-                    var auther = await _userRepositiory.GetUserByIdAsync(article.UserId);
-                    if (auther is not null)
-                    {
-                        articleResponse.UserName = auther.UserName ?? "Unknown";
-                    }
-                    respose.Add(articleResponse);
-
+                    var author = await _userRepository.GetUserByIdAsync(article.UserId);
+                    articleResponse.UserName = author?.UserName ?? "Unknown";
                 }
-
+                else
+                {
+                    articleResponse.UserName = "Unknown";
+                }
+                response.Add(articleResponse);
             }
-            return respose.OrderByDescending(x => x.DatePublished).ToList();
+            // articles.Adapt<List<ArticleResponse>>();
+            return response.OrderByDescending(x => x.DatePublished).ToList();
         }
     }
 }

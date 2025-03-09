@@ -5,10 +5,11 @@
 @using BlazorBlog.Infrastructure.Authentication
 @inject ISender Sender
 @inject NavigationManager NavigationManager
-@inject ICurrentUserService CurrentUserService
+@* @inject ICurrentUserService CurrentUserService *@
+@inject UserManager<User> UserManager
 @attribute [Authorize]
 
-@if (IsEditMode && Article is not null)
+@if (isEditMode && Article is not null)
 {
     <PageTitle>Edit Article "@Article.Title" By "@Article.UserName"</PageTitle>
     <h2 class="text-3xl font-extrabold text-gray-900 dark:text-gray-100 my-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">Edit Article "@Article.Title" By  "@Article.UserName"</h2>
@@ -42,7 +43,7 @@ else
             <button type="submit" class="w-42 px-4 py-2 border rounded-md border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">Submit</button>
         </EditForm>
 
-        @if (IsEditMode)
+        @if (isEditMode)
         {
             <p>
                 <form @onsubmit="DeleteArticle" @formname="DeleteArticleForm" method="post" class="space-y-6">
@@ -53,29 +54,32 @@ else
         }
     }
 
-    <span class="!text-red-500 dark:!text-red-400 text-sm">@_errorMessage</span>
+    <span class="!text-red-500 dark:!text-red-400 text-sm">@errorMessage</span>
 </div>
 
 @code {
-    private bool IsEditMode => ArticleId is not null;
-
+    private bool isEditMode => ArticleId != null;
+    private string errorMessage = string.Empty;
     [SupplyParameterFromForm]
-    public ArticleModel? Article { get; set; }
+    ArticleModel? Article { get; set; }
 
     [Parameter]
     public int? ArticleId { get; set; }
 
-
-    private string _errorMessage = string.Empty;
+    [CascadingParameter]
+    public HttpContext context { get; set; } = default;
 
     protected override async Task OnParametersSetAsync()
     {
-        await base.OnParametersSetAsync();
         if (ArticleId is not null)
         {
-            var result = await Sender.Send(new GetArticleByIdQuery { Id = (int)ArticleId });
+            var result = await Sender.Send(
+                new GetArticleByIdQuery { Id = (int)ArticleId }
+            );
+
             if (result.Success)
             {
+                // we will change this later...
                 Article ??= result.Value.Adapt<ArticleModel>();
                 Article.Id = (int)ArticleId;
             }
@@ -86,61 +90,36 @@ else
         }
         else
         {
+            // ??=  Only sets it if it is null
             Article ??= new();
         }
-        
     }
-async Task HandleSubmit(EditContext arg)
-{
-    if (IsEditMode)
+
+
+    async Task HandleSubmit()
     {
-        var command = Article.Adapt<UpdateArticleCommand>();
-        var result = await Sender.Send(command);
-        if (result.Success)
+        if (isEditMode)
         {
-            // Re-fetch the article to get the correct UserName
-            var updatedResult = await Sender.Send(new GetArticleByIdQuery { Id = Article.Id });
-            if (updatedResult.Success)
+            var command = Article.Adapt<UpdateArticleCommand>();
+            var result = await Sender.Send(command);
+            if (result.Success)
             {
-                Article = updatedResult.Value.Adapt<ArticleModel>();
+                Article = result.Value.Adapt<ArticleModel>();
+            }
+            else
+            {
+                SetErrorMessage(result.Error);
             }
         }
         else
         {
-            SetErrorMessage(result.Error);
-        }
-    }
-    else
-    {
-        var command = Article.Adapt<CreateArticleCommand>();
-        var userId = await CurrentUserService.GetUserIdAsync();
-        if (userId is not null)
-        {
-            command.UserId = userId;
-        }
-        var result = await Sender.Send(command);
-        if (result.Success)
-        {
-            // Navigate to edit mode to re-fetch and display `UserName`
-            NavigationManager.NavigateTo($"/article-editor/{result.Value.Id}");
-        }
-        else
-        {
-            SetErrorMessage(result.Error);
-        }
-    }
-}
+            var command = Article.Adapt<CreateArticleCommand>();
+            command.UserId = UserManager.GetUserId(context.User);
 
-
-    async Task DeleteArticle()
-    {
-        if (ArticleId is not null)
-        {
-            var command = new DeleteArticleCommand { Id = (int)ArticleId };
             var result = await Sender.Send(command);
             if (result.Success)
             {
-                NavigationManager.NavigateTo("/articles");
+                NavigationManager.NavigateTo($"/article-editor/{result.Value.Id}");
             }
             else
             {
@@ -149,8 +128,32 @@ async Task HandleSubmit(EditContext arg)
         }
     }
 
-    void SetErrorMessage(string? message)
+    async Task DeleteArticle()
     {
-        _errorMessage = message ?? string.Empty;
+        if (ArticleId is null)
+        {
+            return;
+        }
+
+        var command = new DeleteArticleCommand
+            {
+                Id = (int)ArticleId
+            };
+
+        var result = await Sender.Send(command);
+        if (result.Success)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            SetErrorMessage(result.Error);
+        }
+    }
+
+    void SetErrorMessage(string? error)
+    {
+        errorMessage = error ?? string.Empty;
     }
 }
+
