@@ -2,6 +2,7 @@
 using BlazorBlog.Application;
 using BlazorBlog.Infrastructure;
 using BlazorBlog.WebUI.Server;
+using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapRazorComponents<App>();
+app.MapRazorComponents<App>().AllowAnonymous();
+
+//[RenderModels].AddInteractiveServerRenderMode().AddAdditionalAssemblies(typeof(Client._Imports).Assembly)
+//.AllowAnonymous();
 
 app.Run();
