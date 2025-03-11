@@ -4,7 +4,7 @@
 @inject ISender Sender
 @inject NavigationManager NavigationManager
 @* @inject ICurrentUserService CurrentUserService *@
-@inject UserManager<User> UserManager
+
 @attribute [Authorize(Roles ="Admin,Writer")]
 
 @if (isEditMode && Article is not null)
@@ -101,7 +101,6 @@ else
             if (result.Success)
             {
                 Article = result.Value.Adapt<ArticleModel>();
-         
             }
             else
             {
@@ -111,9 +110,8 @@ else
         else
         {
             var command = Article.Adapt<CreateArticleCommand>();
-              command.UserId = UserManager.GetUserId(context.User);
             var result = await Sender.Send(command);
-            //Article = result.Adapt<ArticleModel>();
+
             if (result.Success)
             {
                 NavigationManager.NavigateTo($"/article-editor/{result?.Value.Id}");
@@ -121,7 +119,7 @@ else
             else
             {
                 SetErrorMessage(result.Error);
-            }
+           }
 
         }
     }

@@ -1,8 +1,8 @@
 ﻿using BlazingBlog.Domain.Users;
 using BlazorBlog.Domain.Users;
 
-namespace BlazorBlog.Application.Articles.GetArticles
-{
+namespace BlazorBlog.Application.Articles.GetArticles;
+
     public class GetArticlesQueryHandler : IQueryHandler<GetArticlesQuery, List<ArticleResponse>>
     {
         private readonly IArticleRepository _articleRepository;
@@ -37,4 +37,3 @@ namespace BlazorBlog.Application.Articles.GetArticles
             return response.OrderByDescending(x => x.DatePublished).ToList();
         }
     }
-}
