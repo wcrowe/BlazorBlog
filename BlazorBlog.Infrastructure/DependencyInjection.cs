@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using BlazingBlog.Domain.Users;
+using BlazorBlog.Infrastructure.Users;
+using BlazorBlog.Application.Users;
 
 namespace BlazorBlog.Infrastructure
 {
@@ -22,9 +24,11 @@ namespace BlazorBlog.Infrastructure
                 options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection")));
             AddAuthentication(services);
+            services.AddHttpContextAccessor();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IUserRepository, UserRepositiory>();
-          //  services.AddMapster();
+            services.AddScoped<IUserService, UserService>();
+            
             return services;
         }
 

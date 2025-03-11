@@ -1,6 +1,6 @@
 ﻿using BlazingBlog.Domain.Users;
 using BlazorBlog.Domain.Users;
-using BlazorBlog.Infrastructure.Authentication;
+using BlazorBlog.Infrastructure.Users;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;

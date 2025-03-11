@@ -1,8 +1,6 @@
 ﻿@page "/article-editor"
 @page "/article-editor/{ArticleId:int}"
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Identity
-@using BlazorBlog.Infrastructure.Authentication
+
 @inject ISender Sender
 @inject NavigationManager NavigationManager
 @* @inject ICurrentUserService CurrentUserService *@
@@ -113,8 +111,7 @@ else
         else
         {
             var command = Article.Adapt<CreateArticleCommand>();
-            command.DatePublished = DateTime.UtcNow;
-            command.UserId = UserManager.GetUserId(context.User);
+              command.UserId = UserManager.GetUserId(context.User);
             var result = await Sender.Send(command);
             //Article = result.Adapt<ArticleModel>();
             if (result.Success)

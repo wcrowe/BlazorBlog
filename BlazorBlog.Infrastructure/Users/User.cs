@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorBlog.Infrastructure.Authentication
+namespace BlazorBlog.Infrastructure.Users;
+
+public class User : IdentityUser, IUser
 {
-    public class User : IdentityUser, IUser
-    {
-        public List<Article> Articles { get; set; } = [];
-    }
+    public List<Article> Articles { get; set; } = [];
 }

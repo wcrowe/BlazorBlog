@@ -1,6 +1,6 @@
 ﻿
 using BlazorBlog.Domain.Articles;
-using BlazorBlog.Infrastructure.Authentication;
+using BlazorBlog.Infrastructure.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
