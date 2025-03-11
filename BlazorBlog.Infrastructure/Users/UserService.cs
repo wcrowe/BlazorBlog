@@ -17,7 +17,7 @@ public class UserService : IUserService
     public UserService(
         UserManager<User> userManager,
         IHttpContextAccessor httpContextAccessor,
-        ArticleRepository articleRepository)
+        IArticleRepository articleRepository)
     {
         this.userManager = userManager;
         this.httpContextAccessor = httpContextAccessor;

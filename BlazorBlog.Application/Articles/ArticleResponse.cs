@@ -1,5 +1,5 @@
 ﻿namespace BlazorBlog.Application.Articles;
-public class ArticleResponse
+public record ArticleResponse
 {
     public int Id { get; set; }
     public string Title { get; set; }
