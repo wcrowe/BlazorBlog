@@ -17,12 +17,12 @@ public class UserService : IUserService
         _httpContextAccessor = httpContextAccessor;
         _articleRepository = articleRepository;
     }
-    public async Task<string?> GetCurrntUserIdAsync()
+    public async Task<string> GetCurrntUserIdAsync()
     {
         var user = await GetCurrentUserAsync();
         if (user == null)
         {
-            throw new UserNotAutherizedException();
+            throw new UserNotAuthorizedException();
         }
         return user.Id;
     }
