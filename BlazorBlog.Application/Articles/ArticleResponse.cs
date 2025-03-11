@@ -1,8 +1,15 @@
-﻿namespace BlazorBlog.Application.Articles
+﻿namespace BlazorBlog.Application.Articles;
+public class ArticleResponse
 {
-    public record struct ArticleResponse(int Id, string Title, string? Content, DateTime DatePublished, bool IsPublished, string UserName);
-
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public string? Content { get; set; }
+    public DateTime DatePublished { get; set; }
+    public bool IsPublished { get; set; }
+    public string? UserId { get; set; } = null;
+    public string? UserName { get; set; } = null;
 }
+
 
 
 

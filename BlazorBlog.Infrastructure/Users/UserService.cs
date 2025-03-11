@@ -3,15 +3,27 @@ using BlazorBlog.Application.Users;
 using BlazorBlog.Infrastructure.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using BlazorBlog.Application.Articles;
+using BlazorBlog.Domain.Articles;
 
 namespace BlazorBlog.Infrastructure.Users;
 
-public class UserService(
-    UserManager<User> userManager,
-    IHttpContextAccessor httpContextAccessor,
-    ArticleRepository articleRepository)
-    : IUserService
+public class UserService : IUserService
 {
+    private readonly UserManager<User> userManager;
+    private readonly IHttpContextAccessor httpContextAccessor;
+    private readonly IArticleRepository articleRepository;
+
+    public UserService(
+        UserManager<User> userManager,
+        IHttpContextAccessor httpContextAccessor,
+        ArticleRepository articleRepository)
+    {
+        this.userManager = userManager;
+        this.httpContextAccessor = httpContextAccessor;
+        this.articleRepository = articleRepository;
+    }
+
     public async Task<string> GetCurrntUserIdAsync()
     {
         var user = await GetCurrentUserAsync();

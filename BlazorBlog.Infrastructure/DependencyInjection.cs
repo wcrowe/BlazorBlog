@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using BlazingBlog.Domain.Users;
 using BlazorBlog.Infrastructure.Users;
 using BlazorBlog.Application.Users;
+using BlazorBlog.Application.Articles;
+
 
 namespace BlazorBlog.Infrastructure
 {
