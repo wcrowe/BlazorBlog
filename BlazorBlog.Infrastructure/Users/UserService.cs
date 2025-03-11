@@ -6,17 +6,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BlazorBlog.Infrastructure.Users;
 
-public class UserService : IUserService
+public class UserService(
+    UserManager<User> userManager,
+    IHttpContextAccessor httpContextAccessor,
+    ArticleRepository articleRepository)
+    : IUserService
 {
-    private readonly UserManager<User> _userManager;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly ArticleRepository _articleRepository;
-    public UserService(UserManager<User> userManager, IHttpContextAccessor httpContextAccessor, ArticleRepository articleRepository)
-    {
-        _userManager = userManager;
-        _httpContextAccessor = httpContextAccessor;
-        _articleRepository = articleRepository;
-    }
     public async Task<string> GetCurrntUserIdAsync()
     {
         var user = await GetCurrentUserAsync();
@@ -30,7 +25,7 @@ public class UserService : IUserService
     public async Task<bool> IsCurrentUserInRoleAsync(string role)
     {
         var user = await GetCurrentUserAsync();
-        var result = user is not null && await _userManager.IsInRoleAsync(user, role);
+        var result = user is not null && await userManager.IsInRoleAsync(user, role);
         return result;
     }
 
@@ -55,7 +50,7 @@ public class UserService : IUserService
         var isWriter = await IsCurrentUserInRoleAsync("Writer");
         var isAdmin = await IsCurrentUserInRoleAsync("Admin");
 
-        var article = await _articleRepository.GetArticleByIdAsync(articleId);
+        var article = await articleRepository.GetArticleByIdAsync(articleId);
         if (article is null)
         {
             return false;
@@ -65,11 +60,11 @@ public class UserService : IUserService
 
     private async Task<User?> GetCurrentUserAsync()
     {
-        var user = _httpContextAccessor.HttpContext?.User;
+        var user = httpContextAccessor.HttpContext?.User;
         if (user == null)
         {
             return null;
         }
-        return await _userManager.GetUserAsync(user);
+        return await userManager.GetUserAsync(user);
     }
 }
