@@ -1,41 +1,33 @@
 ﻿using BlazingBlog.Domain.Users;
 using BlazorBlog.Domain.Users;
 
-namespace BlazorBlog.Application.Articles.GetArticleById
+namespace BlazorBlog.Application.Articles.GetArticleById;
+
+public class GetArticleByIdQueryHandler(IArticleRepository articleRepository, IUserRepository userRepository)
+    : IQueryHandler<GetArticleByIdQuery, ArticleResponse?>
 {
-    public class GetArticleByIdQueryHandler : IQueryHandler<GetArticleByIdQuery, ArticleResponse?>
+    public async Task<Result<ArticleResponse?>> Handle(GetArticleByIdQuery request, CancellationToken cancellationToken)
     {
-        private readonly IArticleRepository _articleRepository;
-        private readonly IUserRepository _userRepository;
-        public GetArticleByIdQueryHandler(IArticleRepository articleRepository, IUserRepository userRepository)
+        var article = await articleRepository.GetArticleByIdAsync(request.Id);
+
+
+        if (article is null)
         {
-            _articleRepository = articleRepository;
-            _userRepository = userRepository;
+            return Result.Fail<ArticleResponse?>("The article does not exist.");
         }
-
-        public async Task<Result<ArticleResponse?>> Handle(GetArticleByIdQuery request, CancellationToken cancellationToken)
+        else
         {
-            var article = await _articleRepository.GetArticleByIdAsync(request.Id);
-     
-
-            if (article is null)
+            var articleResponse = article.Adapt<ArticleResponse>();
+            if (article.UserId is not null)
             {
-                return Result.Fail<ArticleResponse?>("The article does not exist.");
+                var author = await userRepository.GetUserByIdAsync(article.UserId);
+                articleResponse.UserName = author?.UserName ?? "Unknown";
             }
             else
             {
-                var articleResponse = article.Adapt<ArticleResponse>();
-                if (article.UserId is not null)
-                {
-                    var author = await _userRepository.GetUserByIdAsync(article.UserId);
-                    articleResponse.UserName = author?.UserName ?? "Unknown";
-                }
-                else
-                {
-                    articleResponse.UserName = "Unknown";
-                }
-                return articleResponse;
-        }
+                articleResponse.UserName = "Unknown";
+            }
+            return articleResponse;
         }
     }
 }

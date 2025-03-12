@@ -3,19 +3,12 @@ using BlazorBlog.Domain.Users;
 
 namespace BlazorBlog.Application.Articles.GetArticles;
 
-    public class GetArticlesQueryHandler : IQueryHandler<GetArticlesQuery, List<ArticleResponse>>
+    public class GetArticlesQueryHandler(IArticleRepository articleRepository, IUserRepository userRepository)
+        : IQueryHandler<GetArticlesQuery, List<ArticleResponse>>
     {
-        private readonly IArticleRepository _articleRepository;
-        private readonly IUserRepository _userRepository;
-        public GetArticlesQueryHandler(IArticleRepository articleRepository, IUserRepository userRepository)
-        {
-            _articleRepository = articleRepository;
-            _userRepository = userRepository;
-        }
-
         public async Task<Result<List<ArticleResponse>>> Handle(GetArticlesQuery request, CancellationToken cancellationToken)
         {
-            var articles = await _articleRepository.GetAllArticlesAsync();
+            var articles = await articleRepository.GetAllArticlesAsync();
 
             var response = new List<ArticleResponse>();
 
@@ -24,7 +17,7 @@ namespace BlazorBlog.Application.Articles.GetArticles;
                 var articleResponse = article.Adapt<ArticleResponse>();
                 if (article.UserId is not null)
                 {
-                    var author = await _userRepository.GetUserByIdAsync(article.UserId);
+                    var author = await userRepository.GetUserByIdAsync(article.UserId);
                     articleResponse.UserName = author?.UserName ?? "Unknown";
                 }
                 else

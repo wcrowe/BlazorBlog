@@ -2,7 +2,7 @@
 {
     public class GetArticleByIdQuery : IQuery<ArticleResponse?>
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
 
     }
 }
