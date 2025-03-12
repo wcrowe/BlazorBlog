@@ -57,6 +57,7 @@ namespace BlazorBlog.Infrastructure.Repository
             articleToUpdate.DatePublished = article.DatePublished;
             articleToUpdate.IsPublished = article.IsPublished;
             articleToUpdate.DateUpdated = DateTime.Now;
+            articleToUpdate.UserId = articleToUpdate.UserId;
             await _context.SaveChangesAsync();
 
             return articleToUpdate;

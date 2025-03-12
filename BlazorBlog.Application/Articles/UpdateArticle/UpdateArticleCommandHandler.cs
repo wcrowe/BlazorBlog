@@ -1,41 +1,35 @@
 ﻿using BlazingBlog.Domain.Users;
+using BlazorBlog.Application.Users;
 
 namespace BlazorBlog.Application.Articles.UpdateArticle
 {
-    public class UpdateArticleCommandHandler : ICommandHandler<UpdateArticleCommand, ArticleResponse?>
+    public class UpdateArticleCommandHandler(IArticleRepository articleRepository, IUserRepository userRepository, IUserService userService) : ICommandHandler<UpdateArticleCommand, ArticleResponse?>
     {
-        private readonly IArticleRepository _articleRepository;
-        private readonly IUserRepository _userRepository;
-
-        public UpdateArticleCommandHandler(IArticleRepository articleRepository, IUserRepository userRepository)
-        {
-            _articleRepository = articleRepository;
-            _userRepository = userRepository;
-        }
+        private readonly IArticleRepository _articleRepository = articleRepository;
+        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IUserService userService = userService;
 
         public async Task<Result<ArticleResponse?>> Handle(UpdateArticleCommand request, CancellationToken cancellationToken)
         {
-            var existingArticle = await _articleRepository.GetArticleByIdAsync(request.Id);
-            if (existingArticle is null)
+            if (request is null)
             {
-                return Result.Fail<ArticleResponse?>("Article not found");
+                return Result.Fail<ArticleResponse?>("Request is null");
+            }
+            var articleToUpdate = request.Adapt<Article>();
+
+            if (!await userService.CurrentUserCanEditArticleAsync(articleToUpdate.Id))
+            {
+                return Result.Fail<ArticleResponse?>("You are not allowed to edit. How did you get here?");
             }
 
-            existingArticle.Title = request.Title;
-            existingArticle.Content = request.Content;
-            existingArticle.DatePublished = request.DatePublished;
-            existingArticle.IsPublished = request.IsPublished;
 
-            var updatedArticle = await _articleRepository.UpdateArticleAsync(existingArticle);
-            if (updatedArticle is null)
-            {
-                return Result.Fail<ArticleResponse?>("Failed to update article");
-            }
+            var updatedArticle = await _articleRepository.UpdateArticleAsync(articleToUpdate);
+  
 
             var response = updatedArticle.Adapt<ArticleResponse>();
-            if (updatedArticle.UserId is not null)
+            if (response.UserId is not null)
             {
-                var author = await _userRepository.GetUserByIdAsync(updatedArticle.UserId);
+                var author = await _userRepository.GetUserByIdAsync(response.UserId);
                 response.UserName = author?.UserName ?? "Unknown";
             }
             else
