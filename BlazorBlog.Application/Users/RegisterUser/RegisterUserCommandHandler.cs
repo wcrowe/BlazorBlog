@@ -8,13 +8,6 @@ public class RegisterUserCommandHandler(IAuthenticationService authenticationSer
     public async Task<Result> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         var registerUserResponse = await authenticationService.RegisterUserAsync(request.UserName, request.UserEmail, request.Password);
-        if (registerUserResponse.Successed)
-        {
-            return Result.Ok();
-        }
-        else
-        {
-            return Result.Fail($"{string.Join(", ", registerUserResponse.Errors)}");
-        }
+        return registerUserResponse.Successed ? Result.Ok() : Result.Fail($"{string.Join(", ", registerUserResponse.Errors)}");
     }
 }

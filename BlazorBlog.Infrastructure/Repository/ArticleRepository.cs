@@ -3,15 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlazorBlog.Infrastructure.Repository;
 
-public class ArticleRepository : IArticleRepository
+public class ArticleRepository(ApplicationDbContext context) : IArticleRepository
 {
 
-    private readonly ApplicationDbContext _context;
-
-    public ArticleRepository(ApplicationDbContext context)
-    {
-        _context = context;
-    }
+    private readonly ApplicationDbContext _context = context;
 
     public async Task<Article> CreateArticleAsync(Article article)
     {
@@ -62,5 +57,4 @@ public class ArticleRepository : IArticleRepository
 
         return articleToUpdate;
     }
-
 }

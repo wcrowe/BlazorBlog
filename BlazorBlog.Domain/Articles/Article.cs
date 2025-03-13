@@ -1,7 +1,6 @@
 ﻿using BlazorBlog.Domain.Abstractions;
 
 namespace BlazorBlog.Domain.Articles;
-
 public class Article : Entity
 {
     public required string Title { get; set; }
@@ -10,4 +9,3 @@ public class Article : Entity
     public bool IsPublished { get; set; } = false;
     public string? UserId { get; set; }
 }
-
