@@ -7,15 +7,15 @@
 
 @attribute [Authorize(Roles ="Admin,Writer")]
 
-@if (isEditMode && Article is not null)
+@if (IsEditMode && Article is not null)
 {
     <PageTitle>Edit Article "@Article.Title" By "@Article.UserName"</PageTitle>
     <h2 class="text-3xl font-extrabold text-gray-900 dark:text-gray-100 my-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">Edit Article "@Article.Title" By  "@Article.UserName"</h2>
 }
-else if (!string.IsNullOrEmpty(errorMessage))
+else if (!string.IsNullOrEmpty(_errorMessage))
 {
     <PageTitle>Error</PageTitle>
-    <span class="!text-red-500 dark:!text-red-400 text-sm">@errorMessage</span>
+    <span class="!text-red-500 dark:!text-red-400 text-sm">@_errorMessage</span>
 }
 else
 
@@ -47,7 +47,7 @@ else
             <button type="submit" class="w-42 px-4 py-2 border rounded-md border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">Submit</button>
         </EditForm>
 
-        @if (isEditMode)
+        @if (IsEditMode)
         {
             <p>
                 <form @onsubmit="DeleteArticle" @formname="DeleteArticleForm" method="post" class="space-y-6">
@@ -57,13 +57,11 @@ else
             </p>
         }
     }
-
-    <span class="!text-red-500 dark:!text-red-400 text-sm">@errorMessage</span>
 </div>
 
 @code {
-    private bool isEditMode => ArticleId != null;
-    private string errorMessage = string.Empty;
+    private bool IsEditMode => ArticleId != null;
+    private string _errorMessage = string.Empty;
     [SupplyParameterFromForm]
     ArticleModel? Article { get; set; }
 
@@ -71,7 +69,7 @@ else
     public int? ArticleId { get; set; }
 
     [CascadingParameter]
-    public HttpContext context { get; set; } = default!;
+    public HttpContext Context { get; set; } = null!;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -101,7 +99,7 @@ else
 
     private async Task HandleSubmit()
     {
-        if (isEditMode)
+        if (IsEditMode)
         {
             var command = Article.Adapt<UpdateArticleCommand>();
             var result = await Sender.Send(command);
@@ -121,7 +119,7 @@ else
 
             if (result.Success)
             {
-                NavigationManager.NavigateTo($"/article-editor/{result?.Value.Id}");
+                NavigationManager.NavigateTo($"/article-editor/{result.Value.Id}");
             }
             else
             {
@@ -130,7 +128,6 @@ else
 
         }
     }
-
 
     async Task DeleteArticle()
     {
@@ -157,7 +154,7 @@ else
 
     void SetErrorMessage(string? error)
     {
-        errorMessage = error ?? string.Empty;
+        _errorMessage = error ?? string.Empty;
     }
 }
 
