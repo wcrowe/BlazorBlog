@@ -10,8 +10,6 @@ builder.Services.AddRazorComponents();
 builder.Services.AddApplication(); // Ensure that AddApplication is defined in the Extensions namespace
 builder.Services.AddInfrastructure(builder.Configuration); // Ensure that AddInfrastructure is defined in the Extensions namespace   
 
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

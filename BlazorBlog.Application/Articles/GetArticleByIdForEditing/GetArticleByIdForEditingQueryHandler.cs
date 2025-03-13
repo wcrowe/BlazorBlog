@@ -3,7 +3,7 @@ using BlazorBlog.Application.Users;
 
 namespace BlazorBlog.Application.Articles.GetArticleByIdForEditing;
 
-public class GetArticleByIdForEditingQueryHandler(IArticleRepository articleRepository, IUserRepository userRepository  ,  IUserService userService)
+public class GetArticleByIdForEditingQueryHandler(IArticleRepository articleRepository, IUserRepository userRepository, IUserService userService)
     : IQueryHandler<GetArticleByIdForEditingQuery, ArticleResponse?>
 {
     public async Task<Result<ArticleResponse?>> Handle(GetArticleByIdForEditingQuery request, CancellationToken cancellationToken)

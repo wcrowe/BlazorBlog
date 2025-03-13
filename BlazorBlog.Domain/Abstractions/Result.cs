@@ -20,7 +20,7 @@ public class Result
 
     public static Result<T> Fail<T>(string errorMessage) => new Result<T>(default, false, errorMessage);
 
-    public static Result<T> FromValue<T>(T? value) => value != null ? Ok(value) : Fail<T>("Provided value is null");
+    protected static Result<T> FromValue<T>(T? value) => value != null ? Ok(value) : Fail<T>("Provided value is null");
 }
 
 public class Result<T> : Result
