@@ -1,9 +1,7 @@
 ﻿using BlazorBlog.Application.Exceptions;
 using BlazorBlog.Application.Users;
-using BlazorBlog.Infrastructure.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using BlazorBlog.Application.Articles;
 using BlazorBlog.Domain.Articles;
 
 namespace BlazorBlog.Infrastructure.Users;

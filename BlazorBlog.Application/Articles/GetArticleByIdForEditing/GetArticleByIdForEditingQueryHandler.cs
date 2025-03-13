@@ -1,7 +1,5 @@
 ﻿using BlazingBlog.Domain.Users;
-using BlazorBlog.Application.Articles.GetArticleById;
 using BlazorBlog.Application.Users;
-using BlazorBlog.Domain.Users;
 
 namespace BlazorBlog.Application.Articles.GetArticleByIdForEditing;
 

@@ -1,5 +1,4 @@
-﻿using BlazorBlog.Application.Abstractions.RequestHandling;
-using BlazorBlog.Application.Authentication;
+﻿using BlazorBlog.Application.Authentication;
 
 namespace BlazorBlog.Application.Users.RegisterUser;
 

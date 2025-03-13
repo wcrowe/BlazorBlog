@@ -2,7 +2,6 @@
 using BlazorBlog.Application;
 using BlazorBlog.Infrastructure;
 using BlazorBlog.WebUI.Server;
-using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
