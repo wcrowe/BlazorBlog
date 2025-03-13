@@ -25,6 +25,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        var articleId = ArticleId.ToString().Trim();
         var result = await Sender.Send(new GetArticleByIdQuery { Id = ArticleId });
         if (result.Success)
         {

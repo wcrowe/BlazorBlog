@@ -12,7 +12,13 @@
     <PageTitle>Edit Article "@Article.Title" By "@Article.UserName"</PageTitle>
     <h2 class="text-3xl font-extrabold text-gray-900 dark:text-gray-100 my-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">Edit Article "@Article.Title" By  "@Article.UserName"</h2>
 }
+else if (!string.IsNullOrEmpty(errorMessage))
+{
+    <PageTitle>Error</PageTitle>
+    <span class="!text-red-500 dark:!text-red-400 text-sm">@errorMessage</span>
+}
 else
+
 {
     <PageTitle>Create New Article</PageTitle>
     <h2 class="text-3xl font-extrabold text-gray-900 dark:text-gray-100 my-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">Create New Article</h2>
@@ -72,7 +78,8 @@ else
 
         if (ArticleId is not null)
         {
-            var result = await Sender.Send(new GetArticleByIdQuery { Id = (int)ArticleId });
+          //  var articleId = ArticleId.HasValue.ToString().Trim();
+            var result = await Sender.Send(new GetArticleByIdForEditingQuery { Id = ArticleId.Value });
             if (result.Success)
             {
                 Article ??= ((ArticleResponse?)result).Adapt<ArticleModel>();

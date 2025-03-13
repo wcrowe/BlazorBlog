@@ -1,9 +1,10 @@
 ﻿using BlazingBlog.Domain.Users;
+using BlazorBlog.Application.Users;
 using BlazorBlog.Domain.Users;
 
 namespace BlazorBlog.Application.Articles.GetArticleById;
 
-public class GetArticleByIdQueryHandler(IArticleRepository articleRepository, IUserRepository userRepository)
+public class GetArticleByIdQueryHandler(IArticleRepository articleRepository, IUserRepository userRepository, IUserService userService)
     : IQueryHandler<GetArticleByIdQuery, ArticleResponse?>
 {
     public async Task<Result<ArticleResponse?>> Handle(GetArticleByIdQuery request, CancellationToken cancellationToken)
@@ -22,6 +23,8 @@ public class GetArticleByIdQueryHandler(IArticleRepository articleRepository, IU
             {
                 var author = await userRepository.GetUserByIdAsync(article.UserId);
                 articleResponse.UserName = author?.UserName ?? "Unknown";
+                articleResponse.CanEdit = await userService.CurrentUserCanEditArticleAsync(article.Id);
+                articleResponse.UserId = article.UserId;
             }
             else
             {
