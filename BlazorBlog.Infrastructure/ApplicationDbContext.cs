@@ -4,15 +4,14 @@ using BlazorBlog.Infrastructure.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlazorBlog.Infrastructure
+namespace BlazorBlog.Infrastructure;
+
+public class ApplicationDbContext : IdentityDbContext<User>
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+
+    public ApplicationDbContext(DbContextOptions options) : base(options)
     {
-
-        public ApplicationDbContext(DbContextOptions options) : base(options)
-        {
-        }
-
-        public DbSet<Article> Articles { get; set; }
     }
+
+    public DbSet<Article> Articles { get; set; }
 }

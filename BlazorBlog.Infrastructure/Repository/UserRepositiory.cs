@@ -8,20 +8,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorBlog.Infrastructure.Repository
+namespace BlazorBlog.Infrastructure.Repository;
+
+public class UserRepositiory : IUserRepository
 {
-    public class UserRepositiory : IUserRepository
+    private readonly UserManager<User>? _userManager;
+
+    public UserRepositiory(UserManager<User>? userManager)
     {
-        private readonly UserManager<User>? _userManager;
+        _userManager = userManager;
+    }
 
-        public UserRepositiory(UserManager<User>? userManager)
-        {
-            _userManager = userManager;
-        }
-
-        public async Task<IUser?> GetUserByIdAsync(string userId)
-        {
-            return await _userManager!.FindByIdAsync(userId);
-        }
+    public async Task<IUser?> GetUserByIdAsync(string userId)
+    {
+        return await _userManager!.FindByIdAsync(userId);
     }
 }

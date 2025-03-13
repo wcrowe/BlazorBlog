@@ -1,6 +1,5 @@
-﻿namespace BlazorBlog.Application.Articles.GetArticles
+﻿namespace BlazorBlog.Application.Articles.GetArticles;
+
+public class GetArticlesQuery : IQuery<List<ArticleResponse>>
 {
-    public class GetArticlesQuery : IQuery<List<ArticleResponse>>
-    {
-    }
 }

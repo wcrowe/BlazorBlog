@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorBlog.Application.Authentication
+namespace BlazorBlog.Application.Authentication;
+
+public interface IAuthenticationService
 {
-    public interface IAuthenticationService
-    {
-        Task<RegisterUserResponse> RegisterUserAsync(string username,string email, string password);
-        Task<bool> LoginUserAsync(string username, string password);
-    }
+    Task<RegisterUserResponse> RegisterUserAsync(string username,string email, string password);
+    Task<bool> LoginUserAsync(string username, string password);
 }
