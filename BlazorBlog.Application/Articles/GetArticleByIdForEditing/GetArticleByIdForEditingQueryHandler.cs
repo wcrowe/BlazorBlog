@@ -19,8 +19,27 @@ public class GetArticleByIdForEditingQueryHandler(IArticleRepository articleRepo
         var article = await articleRepository.GetArticleByIdAsync(request.Id);
 
 
-        return article?.Adapt<ArticleResponse>();
+        if (article is null)
+        {
+            return Result.Fail<ArticleResponse?>("The article does not exist.");
+        }
+        else
+        {
+            var articleResponse = article.Adapt<ArticleResponse>();
+            if (article.UserId is not null)
+            {
+                var author = await userRepository.GetUserByIdAsync(article.UserId);
+                articleResponse.UserName = author?.UserName ?? "Unknown";
+                articleResponse.CanEdit = await userService.CurrentUserCanEditArticleAsync(article.Id);
+                articleResponse.UserId = article.UserId;
+            }
+            else
+            {
+                articleResponse.UserName = "Unknown";
+            }
+            return articleResponse;
+        }
     }
-
-
 }
+
+
