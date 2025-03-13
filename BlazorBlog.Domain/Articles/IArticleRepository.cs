@@ -1,15 +1,14 @@
-﻿namespace BlazorBlog.Domain.Articles
+﻿namespace BlazorBlog.Domain.Articles;
+public interface IArticleRepository
 {
-    public interface IArticleRepository
-    {
-        Task<List<Article>> GetAllArticlesAsync();
+    Task<List<Article>> GetAllArticlesAsync();
 
-        Task<Article?> GetArticleByIdAsync(int id);
+    Task<Article?> GetArticleByIdAsync(int id);
 
-        Task<Article> CreateArticleAsync(Article article);
+    Task<Article> CreateArticleAsync(Article article);
 
-        Task<Article?> UpdateArticleAsync(Article article);
+    Task<Article?> UpdateArticleAsync(Article article);
 
-        Task<bool> DeleteArticleAsync(int id);
-    }
+    Task<bool> DeleteArticleAsync(int id);
 }
+

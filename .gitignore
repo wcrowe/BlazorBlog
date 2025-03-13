@@ -364,3 +364,4 @@ FodyWeavers.xsd
 *.exe
 
 /BlazorBlog.WebUI.Server/wwwroot/tailwindcss.exe
+.qodo
