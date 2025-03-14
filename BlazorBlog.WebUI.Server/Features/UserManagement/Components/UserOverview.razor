@@ -1,10 +1,32 @@
 ﻿@page "/user-overview"
+
+
+@inject ISender Sender
 @rendermode InteractiveServer
 @attribute [Authorize(Roles = "Admin")]
 
 
 <h3>UserOverview</h3>
+<ul>
+    @foreach (var user in users)
+    {
+        <li><span>@user.UserName</span><br/></li>
+    }
+</ul>
+
 
 @code {
+    private List<UserResponse> users = [];
 
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await Sender.Send(new GetUsersQuery());
+        if (result.Success)
+        {
+            users = result!;
+        }else
+        {
+            users = [];
+        }
+    }
 }
