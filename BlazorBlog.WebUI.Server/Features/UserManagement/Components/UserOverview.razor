@@ -5,8 +5,11 @@
 @rendermode InteractiveServer
 @attribute [Authorize(Roles = "Admin")]
 
+<PageTitle>Users Overview</PageTitle>
 
-<h3>UserOverview</h3>
+<h2 class="text-3xl font-extrabold px-4 py-4 my-4 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 rounded-lg">User Overview</h2>
+
+<h3></h3>
 <ul>
     @foreach (var user in users)
     {
