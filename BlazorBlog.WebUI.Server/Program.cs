@@ -6,7 +6,7 @@ using BlazorBlog.WebUI.Server;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddApplication(); // Ensure that AddApplication is defined in the Extensions namespace
 builder.Services.AddInfrastructure(builder.Configuration); // Ensure that AddInfrastructure is defined in the Extensions namespace   
 
@@ -25,7 +25,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapRazorComponents<App>().AllowAnonymous();
+app.MapRazorComponents<App>().AllowAnonymous().AddInteractiveServerRenderMode();
 
 //[RenderModels].AddInteractiveServerRenderMode().AddAdditionalAssemblies(typeof(Client._Imports).Assembly)
 //.AllowAnonymous();
