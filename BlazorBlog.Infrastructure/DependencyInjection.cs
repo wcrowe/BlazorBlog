@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using BlazingBlog.Domain.Users;
 using BlazorBlog.Infrastructure.Users;
 using BlazorBlog.Application.Users;
+using BlazorBlog.Domain.Users;
 
 
 namespace BlazorBlog.Infrastructure;
