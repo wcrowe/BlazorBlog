@@ -1,5 +1,4 @@
-﻿using BlazingBlog.Domain.Users;
-using BlazorBlog.Domain.Users;
+﻿using BlazorBlog.Domain.Users;
 using BlazorBlog.Infrastructure.Users;
 using Microsoft.AspNetCore.Identity;
 
@@ -12,6 +11,11 @@ public class UserRepositiory : IUserRepository
     public UserRepositiory(UserManager<User>? userManager)
     {
         _userManager = userManager;
+    }
+
+    public Task<List<IUser>> GetAllUsersAsync()
+    {
+       return await _userManager.userManager!.GetAll;
     }
 
     public async Task<IUser?> GetUserByIdAsync(string userId)
