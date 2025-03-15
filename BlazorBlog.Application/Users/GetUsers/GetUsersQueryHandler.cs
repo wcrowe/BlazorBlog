@@ -1,6 +1,4 @@
-﻿using BlazorBlog.Application.Articles.GetArticles;
-
-namespace BlazorBlog.Application.Users.GetUsers;
+﻿namespace BlazorBlog.Application.Users.GetUsers;
 
 public class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, List<UserResponse>>
 {

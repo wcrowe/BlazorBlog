@@ -1,6 +1,4 @@
-﻿using BlazorBlog.Application.Users;
-
-namespace BlazorBlog.Application.Articles.DeleteArticle;
+﻿namespace BlazorBlog.Application.Articles.DeleteArticle;
 
 public class DeleteArticleCommandHandler(IArticleRepository articleRepository, IUserService userService)
     : ICommandHandler<DeleteArticleCommand>

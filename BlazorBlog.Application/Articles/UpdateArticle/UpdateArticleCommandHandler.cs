@@ -1,6 +1,4 @@
-﻿using BlazorBlog.Application.Users;
-
-namespace BlazorBlog.Application.Articles.UpdateArticle;
+﻿namespace BlazorBlog.Application.Articles.UpdateArticle;
 
 public class UpdateArticleCommandHandler(IArticleRepository articleRepository, IUserRepository userRepository, IUserService userService) : ICommandHandler<UpdateArticleCommand, ArticleResponse?>
 {
