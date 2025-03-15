@@ -1,5 +1,4 @@
-﻿<h3>UserRolesModal</h3>
-
+﻿
 @if (ShowModal)
 {
     <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -25,7 +24,7 @@
 
             <div class="mt-4">
                 <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm dark:bg-gray-100 dark:text-gray-800" placeholder="Add new role" @bind="newRole" />
-                <button class="mt-2 px-4 py-2 bg-sky-600 text-white rounded-md shadow hover:bg-sky-700 w-full sm:w-auto">Add Role</button>
+                <button class="mt-2 px-4 py-2 bg-sky-600 text-white rounded-md shadow hover:bg-sky-700 w-full sm:w-auto" @onclick="AddRole">Add Role</button>
             </div>
 
             <div class="flex justify-end mt-6">
@@ -34,6 +33,7 @@
         </div>
     </div>
 }
+
 
 
 @code {
