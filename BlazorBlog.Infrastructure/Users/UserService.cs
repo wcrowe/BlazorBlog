@@ -77,4 +77,15 @@ public class UserService : IUserService
         }
         return await userManager.GetUserAsync(user);
     }
+
+    public async Task<List<string>> GetUserRolesAsync(string userId)
+    {
+        var user = await userManager.FindByIdAsync(userId);
+        if (user is null)
+        {
+            return [];
+        }
+        var roles = await userManager.GetRolesAsync(user);
+        return [.. roles];
+    }
 }

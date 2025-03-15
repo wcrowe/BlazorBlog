@@ -6,4 +6,5 @@ public interface IUserService
     public Task<bool> IsCurrentUserInRoleAsync(string role);
     public Task<bool> CurrentUserCanCreateArticleAsync();
     public Task<bool> CurrentUserCanEditArticleAsync(int articleId);
+    public Task<List<string>> GetUserRolesAsync(string userId);
 }

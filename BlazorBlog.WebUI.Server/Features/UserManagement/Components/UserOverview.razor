@@ -9,13 +9,24 @@
 
 <h2 class="text-3xl font-extrabold px-4 py-4 my-4 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 rounded-lg">User Overview</h2>
 
-<h3></h3>
-<ul>
-    @foreach (var user in users)
-    {
-        <li><span>@user.UserName</span><br/></li>
-    }
-</ul>
+
+@if (users is null)
+{
+    <span><em>Loading...</em></span>
+}
+else if (users.Count == 0)
+{
+    <span><em>No users found</em></span>
+}else{
+   <QuickGrid Items="users.AsQueryable()">
+
+        <PropertyColumn Property="@(prop=>prop.UserName)" Sortable="true" Title="User Name" ></PropertyColumn>
+        <PropertyColumn Property="@(prop=>prop.Email)" Sortable="true" Title="Email"></PropertyColumn>
+        <PropertyColumn Property="@(prop=>prop.Roles)" Sortable="false" Title="Email"></PropertyColumn>
+
+    </QuickGrid>
+
+}
 
 
 @code {

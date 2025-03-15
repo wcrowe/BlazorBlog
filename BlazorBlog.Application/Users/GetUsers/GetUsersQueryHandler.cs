@@ -20,6 +20,15 @@ public class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, List<UserRespon
             return Result.Fail<List<UserResponse>>("You do not have permission to view users.");
         }
         var users = await _userRepository.GetAllUsersAsync();
-        return Result.Ok(users.Adapt<List<UserResponse>>());
+        var response = new List<UserResponse>();
+        foreach (var user in users)
+        {
+            var userResponses = user.Adapt<UserResponse>();
+            userResponses.Roles = string.Join(", ", await _userService.GetUserRolesAsync(user.Id));
+            response.Add(userResponses);
+
+        }
+        return response;
+        // return Result.Ok(users.Adapt<List<UserResponse>>());
     }
 }
