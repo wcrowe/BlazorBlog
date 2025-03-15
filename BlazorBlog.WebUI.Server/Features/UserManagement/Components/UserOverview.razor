@@ -39,6 +39,7 @@ else if (users.Count == 0)
 
 }
 
+<UserRolesModal ShowModal="@showModal" ModalClosed="CloseModal" UserId="@selectedUserId" UserName="@selectedUserName" />
 
 @code {
     private List<UserResponse> users = [];
@@ -65,8 +66,8 @@ else if (users.Count == 0)
         showModal = true;
         Console.WriteLine($"OpenModal {selectedUserId} {selectedUserName}"); 
     }
-    private void ToggleModal()
+    private void CloseModal()
     {
-        showModal = !showModal;
+        showModal = false;
     }
 }
