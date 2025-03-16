@@ -30,7 +30,7 @@ app.MapRazorComponents<App>()
     .AllowAnonymous()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(BlazorBlog.WebUI.Client.Features.Articles.Components.ArticleOverview).Assembly);
+    .AddAdditionalAssemblies(typeof(BlazorBlog.WebUI.Client._Imports).Assembly);
 
 //[RenderModels].AddInteractiveServerRenderMode().AddAdditionalAssemblies(typeof(Client._Imports).Assembly)
 //.AllowAnonymous();
