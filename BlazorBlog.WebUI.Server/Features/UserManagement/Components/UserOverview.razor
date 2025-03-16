@@ -18,8 +18,6 @@ else if (users.Count == 0)
 }
 else
 {
-
-
     <QuickGrid Items="users.AsQueryable()">
         <PropertyColumn Property="@(prop => prop.UserName)" Sortable="true" Title="User Name"></PropertyColumn>
         <PropertyColumn Property="@(prop => prop.Email)" Sortable="true" Title="Email"></PropertyColumn>
@@ -36,7 +34,6 @@ else
             </button>
         </TemplateColumn>
     </QuickGrid>
-
 }
 
 <UserRolesModal ShowModal="@showModal" ModalClosed="CloseModal"
@@ -50,23 +47,28 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadUsers();
+    }
+
+    private async Task LoadUsers()
+    {
         try
         {
             var result = await Sender.Send(new GetUsersQuery());
             if (result.Success)
             {
-                users = result!;
+                users = result.Value ?? new List<UserResponse>();
             }
             else
             {
-                users = new();
+                users = new List<UserResponse>();
                 Console.WriteLine("Failed to load users.");
             }
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error loading users: {ex.Message}");
-            users = new();
+            users = new List<UserResponse>();
         }
     }
 
@@ -81,6 +83,7 @@ else
     private async Task CloseModal()
     {
         showModal = false;
+        await LoadUsers(); // Reload users to refresh the grid
         await InvokeAsync(StateHasChanged); // Ensure UI updates
     }
 }

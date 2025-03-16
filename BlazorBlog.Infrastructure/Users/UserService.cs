@@ -11,15 +11,18 @@ public class UserService : IUserService
     private readonly UserManager<User> userManager;
     private readonly IHttpContextAccessor httpContextAccessor;
     private readonly IArticleRepository articleRepository;
+    private readonly RoleManager<IdentityRole> roleManager;
 
     public UserService(
         UserManager<User> userManager,
         IHttpContextAccessor httpContextAccessor,
-        IArticleRepository articleRepository)
+        IArticleRepository articleRepository,
+        RoleManager<IdentityRole> roleManager)
     {
         this.userManager = userManager;
         this.httpContextAccessor = httpContextAccessor;
         this.articleRepository = articleRepository;
+        this.roleManager = roleManager;
     }
 
     public async Task<string> GetCurrntUserIdAsync()
@@ -83,9 +86,39 @@ public class UserService : IUserService
         var user = await userManager.FindByIdAsync(userId);
         if (user is null)
         {
-            return [];
+            return new List<string>();
         }
         var roles = await userManager.GetRolesAsync(user);
-        return [.. roles];
+        return roles.ToList();
+    }
+
+    public async Task AddRoleToUserAsync(string userId, string roleName)
+    {
+        var user = await userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            throw new Exception($"User with ID {userId} not found.");
+        }
+
+        if (!await roleManager.RoleExistsAsync(roleName))
+        {
+            var resultCreateRole = await roleManager.CreateAsync(new IdentityRole(roleName));
+            if (!resultCreateRole.Succeeded)
+            {
+                var errors = string.Join(", ", resultCreateRole.Errors.Select(e => e.Description));
+                throw new Exception($"Failed to create role: {errors}");
+            }
+        }
+
+        if (!await userManager.IsInRoleAsync(user, roleName))
+        {
+            var resultAddRole = await userManager.AddToRoleAsync(user, roleName);
+            if (!resultAddRole.Succeeded)
+            {
+                var errors = string.Join(", ", resultAddRole.Errors.Select(e => e.Description));
+                throw new Exception($"Failed to add role to user: {errors}");
+            }
+        }
     }
 }
+

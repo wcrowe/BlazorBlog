@@ -2,8 +2,8 @@
 
 @if (ShowModal)
 {
-    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div class="bg-white dark:bg-gray-900 max-w-lg w-auto p-6 rounded-lg shadow-lg">
+    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" role="dialog" aria-modal="true">
+        <div class="bg-white dark:bg-gray-900 w-96 p-6 rounded-lg shadow-lg">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 Change Roles for @UserName
             </h2>
@@ -12,7 +12,7 @@
                 <QuickGrid Items="roles.AsQueryable()">
                     <PropertyColumn Property="@(r => r)" Title="Role"></PropertyColumn>
                     <TemplateColumn>
-                        <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-flex items-center" @onclick="() => RemoveRole(context)">
+                        <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-flex items-center" @onclick="() => RemoveRole(context)" aria-label="Remove role">
                             <svg class="h-4 w-4 text-red-500" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" />
                                 <line x1="18" y1="6" x2="6" y2="18" />
@@ -58,9 +58,10 @@
 
     private async Task AddRole()
     {
-        if (!string.IsNullOrEmpty(newRole))
+        if (!string.IsNullOrEmpty(newRole) && !roles.Contains(newRole))
         {
-            roles.Add(newRole);
+            await Sender.Send(new AddRoleToUserCommand { UserId = UserId,RoleName = newRole });
+            await LoadUserRoles();
             newRole = "";
             await InvokeAsync(StateHasChanged); // Ensure UI updates
         }
@@ -68,8 +69,11 @@
 
     private async Task RemoveRole(string role)
     {
-        roles.Remove(role);
-        await InvokeAsync(StateHasChanged); // Ensure UI updates
+        if (roles.Contains(role))
+        {
+            roles.Remove(role);
+            await InvokeAsync(StateHasChanged); // Ensure UI updates
+        }
     }
 
     private async Task CloseModal()
@@ -80,8 +84,16 @@
 
     private async Task LoadUserRoles()
     {
-        var result = await Sender.Send(new GetUserRolesQuery { UserId = UserId });
-        roles = result?.Value ?? new List<string>(); // Ensure it's never null
+        try
+        {
+            var result = await Sender.Send(new GetUserRolesQuery { UserId = UserId });
+            roles = result?.Value ?? new List<string>(); // Ensure it's never null
+        }
+        catch (Exception ex)
+        {
+            // Handle error (e.g., log it, show a message to the user, etc.)
+            Console.Error.WriteLine($"Error loading user roles: {ex.Message}");
+        }
         await InvokeAsync(StateHasChanged); // Ensure UI updates
     }
 }
