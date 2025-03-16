@@ -1,10 +1,12 @@
 ﻿@page "/article-overview"
-@rendermode InteractiveAuto
+@* @rendermode InteractiveWebAssembly *@
 
-@* @rendermode @(new InteractiveWebAssemblyRenderMode(false)) *@
+@* @rendermode @(new InteractiveWebAssemblyRenderMode(true)) *@
+@rendermode @(new InteractiveAutoRenderMode(false))
 
-@inject HttpClient Http
+@* @inject HttpClient Http *@
 @inject NavigationManager Navigation
+@inject IArticleOverviewService ArticleOverviewService
 
 <PageTitle>Article Overview</PageTitle>
 
@@ -84,7 +86,7 @@ else
     {
         try
         {
-            articles = await Http.GetFromJsonAsync<List<ArticleResponse>>("api/articles") ?? new();
+            articles = await ArticleOverviewService.GetArticlesByCurrentUserAsync();
         }
         catch (HttpRequestException ex)
         {
@@ -95,15 +97,14 @@ else
 
     async Task ToggleArticlePublishes(int id)
     {
-        var results = await Http.PatchAsync($"api/articles/{id}", null);
-        if (results.IsSuccessStatusCode && articles is not null)
+        var updateArticle = await ArticleOverviewService.TogglePublishArticleAsync(id);
+        if (updateArticle is not null && articles is not null)
         {
 
-            var updateArticle = await results.Content.ReadFromJsonAsync<ArticleResponse>();
             var index = articles.FindIndex(a => a.Id == id);
             if (index != -1)
             {
-                articles[index] = updateArticle!;
+                articles[index] = updateArticle ?? throw new InvalidOperationException("Article not found");
             }
             await InvokeAsync(StateHasChanged);
         }

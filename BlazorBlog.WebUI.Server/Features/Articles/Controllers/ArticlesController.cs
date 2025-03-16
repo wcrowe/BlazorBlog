@@ -10,28 +10,30 @@ namespace BlazorBlog.WebUI.Server.Features.Articles.Controllers;
 [ApiController]
 public class ArticlesController : ControllerBase
 {
-    private readonly ISender _sender;
 
-    public ArticlesController(ISender sender)
+    private readonly IArticleOverviewService _articleOverviewService;
+
+    public ArticlesController(IArticleOverviewService articleOverviewService)
     {
-        _sender = sender;
+        _articleOverviewService = articleOverviewService;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<ArticleResponse>>> GetArticlesByCurrentUser()
     {
-        var result = await _sender.Send(new GetArticlesByCurrentUserQuery());
-        return Ok(result.Value);
+        var result = await _articleOverviewService.GetArticlesByCurrentUserAsync();
+        return Ok(result);
     }
 
     [HttpPatch("{id}")]
     public async Task<ActionResult<ArticleResponse>> TogglePublishArticle(int id)
     {
-        var result = await _sender.Send(new TogglePublishArticleCommand { ArticleId = id });
-        if (result.Success)
+        var result = await _articleOverviewService.TogglePublishArticleAsync(id);
+        if (result is null)
         {
-            return Ok(result.Value);
+            return BadRequest();
+       
         }
-        return BadRequest(result.Error);
+        return Ok(result);
     }
 }
