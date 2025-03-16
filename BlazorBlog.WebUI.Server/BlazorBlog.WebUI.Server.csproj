@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorBlog.Infrastructure\BlazorBlog.Infrastructure.csproj" />
+    <ProjectReference Include="..\BlazorBlog.WebUI.Client\BlazorBlog.WebUI.Client.csproj" />
   </ItemGroup>
 
   <ItemGroup>
