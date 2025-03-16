@@ -13,8 +13,8 @@ builder.Services.AddInfrastructure(builder.Configuration); // Ensure that AddInf
 
 builder.Services.AddControllers();
 
-// ✅ Register HttpClient for the server project
-builder.Services.AddHttpClient();
+//// ✅ Register HttpClient for the server project
+//builder.Services.AddHttpClient();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
