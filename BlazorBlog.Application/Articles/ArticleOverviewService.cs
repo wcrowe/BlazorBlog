@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace BlazorBlog.Application.Articles
 {
-    public class ArticlesOverviewService : IArticleOverviewService
+    public class ArticleOverviewService : IArticleOverviewService
     {
         private readonly ISender _sender;
 
-        public ArticlesOverviewService(ISender sender)
+        public ArticleOverviewService(ISender sender)
         {
             _sender = sender;
         }
