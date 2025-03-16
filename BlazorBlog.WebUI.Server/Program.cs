@@ -14,7 +14,9 @@ builder.Services.AddInfrastructure(builder.Configuration); // Ensure that AddInf
 builder.Services.AddControllers();
 
 //// ✅ Register HttpClient for the server project
+//// Created IArticleOverviewService in the Application project and now don't need to register it here
 //builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
