@@ -71,7 +71,8 @@
     {
         if (roles.Contains(role))
         {
-            roles.Remove(role);
+            await Sender.Send(new RemoveRoleFromUserCommand { UserId = UserId, RoleName = role });
+            await LoadUserRoles();
             await InvokeAsync(StateHasChanged); // Ensure UI updates
         }
     }

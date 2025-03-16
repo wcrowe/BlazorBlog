@@ -120,5 +120,23 @@ public class UserService : IUserService
             }
         }
     }
+
+    public async Task RemoveRoleFromUserAsync(string userId, string roleName)
+    {
+        var user = await userManager.FindByIdAsync(userId) ?? throw new Exception($"User with ID {userId} not found.");
+        if (await userManager.IsInRoleAsync(user, roleName))
+        {
+            var resultRemoveRole = await userManager.RemoveFromRoleAsync(user, roleName);
+            if (!resultRemoveRole.Succeeded)
+            {
+                var errors = string.Join(", ", resultRemoveRole.Errors.Select(e => e.Description));
+                throw new Exception($"Failed to remove role from user: {errors}");
+            }
+        }
+        else
+        {
+            throw new Exception($"User with ID {userId} does not have the role {roleName}.");
+        }
+    }
 }
 

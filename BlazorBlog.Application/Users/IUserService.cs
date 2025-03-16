@@ -8,4 +8,5 @@ public interface IUserService
     public Task<bool> CurrentUserCanEditArticleAsync(int articleId);
     public Task<List<string>> GetUserRolesAsync(string userId);
     public Task AddRoleToUserAsync(string userId, string roleName);
+    public Task RemoveRoleFromUserAsync(string userId, string roleName);
 }
