@@ -1,10 +1,53 @@
 ﻿@page "/article-overview"
 @rendermode InteractiveWebAssembly
+
+@* @rendermode @(new InteractiveWebAssemblyRenderMode(false)) *@
+
 @inject HttpClient Http
+@inject NavigationManager Navigation
 
 <PageTitle>Article Overview</PageTitle>
 
 <h2 class="text-3xl font-extrabold px-4 py-4 my-4 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 rounded-lg">Articles</h2>
+
+<style>
+    /* Style for the article overview title */
+    .user-overview-title {
+        font-size: 1.875rem; /* text-3xl */
+        font-weight: 800; /* font-extrabold */
+        padding: 1rem; /* px-4 py-4 */
+        margin: 1rem 0; /* my-4 */
+        color: #1f2937; /* text-gray-900 */
+        background-color: #f3f4f6; /* bg-gray-100 */
+        border-radius: 0.5rem; /* rounded-lg */
+    }
+
+    /* Button styling */
+    .edit-article-button {
+        background-color: #6b7280; /* bg-gray-500 */
+        color: white; /* text-white */
+        font-weight: bold; /* font-bold */
+        padding: 0.5rem 1rem; /* py-2 px-4 */
+        border-radius: 0.375rem; /* rounded */
+        display: inline-flex; /* inline-flex */
+        align-items: center; /* items-center */
+        transition: all 0.3s ease-in-out; /* transition duration-300 ease-in-out */
+        border: 1px solid transparent; /* border border-transparent */
+        outline: none; /* focus:outline-none */
+        cursor: pointer;
+    }
+
+    /* Hover effect */
+    .edit-article-button:hover {
+        background-color: #374151; /* hover:bg-gray-700 */
+    }
+
+    /* Button focus effect */
+    .edit-article-button:focus {
+        outline: 2px solid #6b7280; /* focus:ring-2 focus:ring-gray-500 */
+        outline-offset: 2px; /* focus:ring-offset-2 */
+    }
+</style>
 
 @if (articles is null)
 {
@@ -16,12 +59,21 @@ else if (articles.Count == 0)
 }
 else
 {
-    <ul>
-        @foreach (var article in articles)
-        {
-            <li>@article.Title</li>
-        }
-    </ul>
+    <QuickGrid Items="articles.AsQueryable()" RowContext="article">
+        <PropertyColumn Property="@(a => a.Title)" Sortable="true" Title="Title"></PropertyColumn>
+        <PropertyColumn Property="@(a => a.IsPublished)" Sortable="true" Title="Published"></PropertyColumn>
+        <PropertyColumn Property="@(a => a.DatePublished)" Sortable="true" Title="Date Published"></PropertyColumn>
+        <TemplateColumn Title="Actions">
+            <button class="edit-article-button" @onclick="() => EditArticle(context.Id)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 0 0 -4 -4l-10.5 10.5v4" />
+                    <path d="M13.5 6.5l4 4" />
+                </svg>
+                Edit
+            </button>
+        </TemplateColumn>
+    </QuickGrid>
 }
 
 @code {
@@ -50,5 +102,11 @@ else
             Console.WriteLine($"Request error: {ex.Message}");
             articles = new();
         }
+    }
+
+    void EditArticle(int id)
+    {
+        Navigation.NavigateTo($"article-editor/{id}");
+        // Implement the logic to edit the article
     }
 }
