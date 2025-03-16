@@ -1,4 +1,4 @@
-
+﻿
 using BlazorBlog.Application;
 using BlazorBlog.Infrastructure;
 using BlazorBlog.WebUI.Server;
@@ -11,6 +11,10 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents().AddIntera
 builder.Services.AddApplication(); // Ensure that AddApplication is defined in the Extensions namespace
 builder.Services.AddInfrastructure(builder.Configuration); // Ensure that AddInfrastructure is defined in the Extensions namespace   
 
+builder.Services.AddControllers();
+
+// ✅ Register HttpClient for the server project
+builder.Services.AddHttpClient();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,6 +26,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapControllers();
 
 app.UseStaticFiles();
 app.UseAntiforgery();

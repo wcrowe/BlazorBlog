@@ -1,10 +1,54 @@
 ﻿@page "/article-overview"
 @rendermode InteractiveWebAssembly
+@inject HttpClient Http
 
 <PageTitle>Article Overview</PageTitle>
 
-<h3>ArticleOverview</h3>
+<h2 class="text-3xl font-extrabold px-4 py-4 my-4 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 rounded-lg">Articles</h2>
+
+@if (articles is null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (articles.Count == 0)
+{
+    <p><em>No articles found.</em></p>
+}
+else
+{
+    <ul>
+        @foreach (var article in articles)
+        {
+            <li>@article.Title</li>
+        }
+    </ul>
+}
 
 @code {
+    private List<ArticleResponse>? articles;
 
+    private bool _initialized = false; // ✅ Prevents duplicate calls
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_initialized)
+        {
+            _initialized = true; // ✅ Ensures data loads only once
+            await LoadArticles();
+            StateHasChanged(); // ✅ Forces UI refresh
+        }
+    }
+
+    private async Task LoadArticles()
+    {
+        try
+        {
+            articles = await Http.GetFromJsonAsync<List<ArticleResponse>>("api/articles") ?? new();
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"Request error: {ex.Message}");
+            articles = new();
+        }
+    }
 }
