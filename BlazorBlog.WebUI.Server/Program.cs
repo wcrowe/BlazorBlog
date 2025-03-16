@@ -29,7 +29,8 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AllowAnonymous()
     .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode();
+    .AddInteractiveWebAssemblyRenderMode()
+    .AddAdditionalAssemblies(typeof(BlazorBlog.WebUI.Client.Features.Articles.Components.ArticleOverview).Assembly);
 
 //[RenderModels].AddInteractiveServerRenderMode().AddAdditionalAssemblies(typeof(Client._Imports).Assembly)
 //.AllowAnonymous();
