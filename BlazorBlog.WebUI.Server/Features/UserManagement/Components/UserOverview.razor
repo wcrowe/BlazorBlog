@@ -1,14 +1,14 @@
 ﻿@page "/user-overview"
 
 @inject ISender Sender
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(false))
 @attribute [Authorize(Roles = "Admin")]
 
 <PageTitle>Users Overview</PageTitle>
 
 <h2 class="text-3xl font-extrabold px-4 py-4 my-4 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 rounded-lg">User Overview</h2>
 
-@if (users is null)
+@if (users == null)
 {
     <span><em>Loading...</em></span>
 }
@@ -37,18 +37,17 @@ else
 }
 
 <UserRolesModal ShowModal="@showModal" ModalClosed="CloseModal"
-                UserId="@selectedUserId" UserName="@selectedUserName" />
+UserId="@selectedUserId" UserName="@selectedUserName" />
 
 @code {
-    private List<UserResponse> users = new();
+    private List<UserResponse>? users = null; // Initialize as null to show loading message
     private bool showModal = false;
     private string selectedUserId = "";
     private string selectedUserName = "";
 
-    protected override async Task OnInitializedAsync()
-    {
+    protected override async Task OnInitializedAsync() =>
+        // await Task.Delay(3000); //to test redering modes
         await LoadUsers();
-    }
 
     private async Task LoadUsers()
     {
