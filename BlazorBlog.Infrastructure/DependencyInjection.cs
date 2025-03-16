@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using BlazorBlog.Infrastructure.Users;
 using BlazorBlog.Application.Users;
 using BlazorBlog.Domain.Users;
+using BlazorBlog.Application.Articles;
 
 
 namespace BlazorBlog.Infrastructure;
@@ -27,6 +28,7 @@ public static class DependencyInjection
         services.AddScoped<IArticleRepository, ArticleRepository>();
         services.AddScoped<IUserRepository, UserRepositiory>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IArticleOverviewService, ArticleOverviewService>();
 
         return services;
     }
