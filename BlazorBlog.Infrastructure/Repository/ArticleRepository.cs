@@ -38,6 +38,14 @@ public class ArticleRepository(ApplicationDbContext context) : IArticleRepositor
         return article;
     }
 
+    public async Task<List<Article>> GetArticlesByUserAsync(string userId)
+    {
+      var articles = await _context.Articles
+            .Where(a => a.UserId == userId)
+            .ToListAsync();
+        return articles;
+    }
+
     public async Task<Article?> UpdateArticleAsync(Article article)
     {
         var articleToUpdate = await GetArticleByIdAsync(article.Id);
