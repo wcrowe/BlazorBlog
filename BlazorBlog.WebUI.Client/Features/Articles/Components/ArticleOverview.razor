@@ -10,44 +10,7 @@
 
 <h2 class="text-3xl font-extrabold px-4 py-4 my-4 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 rounded-lg">Articles</h2>
 
-<style>
-    /* Style for the article overview title */
-    .user-overview-title {
-        font-size: 1.875rem; /* text-3xl */
-        font-weight: 800; /* font-extrabold */
-        padding: 1rem; /* px-4 py-4 */
-        margin: 1rem 0; /* my-4 */
-        color: #1f2937; /* text-gray-900 */
-        background-color: #f3f4f6; /* bg-gray-100 */
-        border-radius: 0.5rem; /* rounded-lg */
-    }
 
-    /* Button styling */
-    .edit-article-button {
-        background-color: #6b7280; /* bg-gray-500 */
-        color: white; /* text-white */
-        font-weight: bold; /* font-bold */
-        padding: 0.5rem 1rem; /* py-2 px-4 */
-        border-radius: 0.375rem; /* rounded */
-        display: inline-flex; /* inline-flex */
-        align-items: center; /* items-center */
-        transition: all 0.3s ease-in-out; /* transition duration-300 ease-in-out */
-        border: 1px solid transparent; /* border border-transparent */
-        outline: none; /* focus:outline-none */
-        cursor: pointer;
-    }
-
-    /* Hover effect */
-    .edit-article-button:hover {
-        background-color: #374151; /* hover:bg-gray-700 */
-    }
-
-    /* Button focus effect */
-    .edit-article-button:focus {
-        outline: 2px solid #6b7280; /* focus:ring-2 focus:ring-gray-500 */
-        outline-offset: 2px; /* focus:ring-offset-2 */
-    }
-</style>
 
 @if (articles is null)
 {
@@ -61,9 +24,26 @@ else
 {
     <QuickGrid Items="articles.AsQueryable()" RowContext="article">
         <PropertyColumn Property="@(a => a.Title)" Sortable="true" Title="Title"></PropertyColumn>
+        <TemplateColumn Title="Published">
+            @if (context.IsPublished)
+            {
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M5 12l5 5l10 -10" />
+                </svg>
+            }
+            else
+            {
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            }
+        </TemplateColumn>
         <PropertyColumn Property="@(a => a.IsPublished)" Sortable="true" Title="Published"></PropertyColumn>
         <PropertyColumn Property="@(a => a.DatePublished)" Sortable="true" Title="Date Published"></PropertyColumn>
-        <TemplateColumn Title="Actions">
+        <TemplateColumn Title="Edit">
             <button class="edit-article-button" @onclick="() => EditArticle(context.Id)">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -71,6 +51,15 @@ else
                     <path d="M13.5 6.5l4 4" />
                 </svg>
                 Edit
+            </button>
+        </TemplateColumn>
+        <TemplateColumn Title="Toggle">
+            <button class="edit-article-button" @onclick="() => ToggleArticlePublishes(context.Id)">
+                <svg width="40" height="20" viewBox="0 0 40 20" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" y="0" width="40" height="20" rx="10" fill="@(context.IsPublished ? "#6b7280" : "#ccc")" class="toggle-track" />
+                    <circle cx="@(context.IsPublished ? 30 : 10)" cy="10" r="8" fill="white" class="toggle-thumb" />
+                </svg>
+                Toggle
             </button>
         </TemplateColumn>
     </QuickGrid>
@@ -102,6 +91,24 @@ else
             Console.WriteLine($"Request error: {ex.Message}");
             articles = new();
         }
+    }
+
+    async Task ToggleArticlePublishes(int id)
+    {
+        var results = await Http.PatchAsync($"api/articles/{id}", null);
+        if (results.IsSuccessStatusCode && articles is not null)
+        {
+
+            var updateArticle = await results.Content.ReadFromJsonAsync<ArticleResponse>();
+            var index = articles.FindIndex(a => a.Id == id);
+            if (index != -1)
+            {
+                articles[index] = updateArticle!;
+            }
+            await InvokeAsync(StateHasChanged);
+        }
+ 
+
     }
 
     void EditArticle(int id)

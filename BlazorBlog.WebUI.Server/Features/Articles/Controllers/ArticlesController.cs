@@ -1,5 +1,6 @@
 ﻿using BlazorBlog.Application.Articles;
 using BlazorBlog.Application.Articles.GetArticlesByCurrentUser;
+using BlazorBlog.Application.Articles.TogglePublish;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,5 +22,16 @@ public class ArticlesController : ControllerBase
     {
         var result = await _sender.Send(new GetArticlesByCurrentUserQuery());
         return Ok(result.Value);
+    }
+
+    [HttpPatch("{id}")]
+    public async Task<ActionResult<ArticleResponse>> TogglePublishArticle(int id)
+    {
+        var result = await _sender.Send(new TogglePublishArticleCommand { ArticleId = id });
+        if (result.Success)
+        {
+            return Ok(result.Value);
+        }
+        return BadRequest(result.Error);
     }
 }
