@@ -4,8 +4,11 @@
 @* @rendermode @(new InteractiveWebAssemblyRenderMode(true)) *@
 @* @rendermode @(new InteractiveAutoRenderMode(false)) *@
 
+
 @inject NavigationManager Navigation
 @inject IArticleOverviewService ArticleOverviewService
+
+@attribute [Authorize]
 
 <PageTitle>Article Overview</PageTitle>
 
