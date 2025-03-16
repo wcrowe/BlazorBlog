@@ -1,19 +1,22 @@
 ﻿/** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-        "./**/*.{razor,html,cshtml}",
-        './**/(Layout|Pages)/*.{razor,html}', // Include only Layout and Pages folders
-        "./wwwroot/**/*.{html,js}"
+        "./Pages/**/*.razor",       // Blazor pages
+        "./Components/**/*.razor",  // General components
+        "./Shared/**/*.razor",      // Shared components
+        "./Features/**/*.razor",    // Features folder components ✅ ADDED
+        "./**/*.razor.css",         // ✅ ADDED TO PICK UP COMPONENT-SCOPED CSS
+        "./**/*.html",
+        "./wwwroot/**/*.js",
     ],
     theme: {
         extend: {
             colors: {
-                'red': {
-                    500: 'oklch(0.637 0.237 25.331)', // Your custom red-500
+                red: {
+                    500: 'oklch(0.637 0.237 25.331)', // Custom red-500 color
                 },
             },
         },
     },
     plugins: [],
-}
-
+};

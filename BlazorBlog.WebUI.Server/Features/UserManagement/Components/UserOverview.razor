@@ -18,12 +18,14 @@ else if (users.Count == 0)
 }
 else
 {
+
+
     <QuickGrid Items="users.AsQueryable()">
         <PropertyColumn Property="@(prop => prop.UserName)" Sortable="true" Title="User Name"></PropertyColumn>
         <PropertyColumn Property="@(prop => prop.Email)" Sortable="true" Title="Email"></PropertyColumn>
         <PropertyColumn Property="@(prop => prop.Roles)" Sortable="false" Title="Roles"></PropertyColumn>
         <TemplateColumn Title="Actions">
-            <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-flex items-center" @onclick="() => OpenModal(context.Id, context.UserName)">
+            <button class="manage-roles-button" @onclick="() => OpenModal(context.Id, context.UserName)">
                 <svg class="h-4 w-4 text-white mr-1" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" />
                     <rect x="5" y="11" width="14" height="10" rx="2" />
@@ -34,6 +36,7 @@ else
             </button>
         </TemplateColumn>
     </QuickGrid>
+
 }
 
 <UserRolesModal ShowModal="@showModal" ModalClosed="CloseModal"
