@@ -11,3 +11,8 @@ dotnet nuget locals http-cache --clear
 dotnet nuget locals temp --clear
 
 dotnet nuget locals all --clear
+
+builder.Services.AddOpenApi(); controls name
+add Scalar
+https://localhost:7006/openapi/v1.json
+https://localhost:7006/scalar/v1

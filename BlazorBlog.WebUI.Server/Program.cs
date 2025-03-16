@@ -3,6 +3,7 @@ using BlazorBlog.Application;
 using BlazorBlog.Infrastructure;
 using BlazorBlog.WebUI.Server;
 using Microsoft.AspNetCore.Components.WebAssembly.Server;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddControllers();
 //// ✅ Register HttpClient for the server project
 //// Created IArticleOverviewService in the Application project and now don't need to register it here
 //builder.Services.AddHttpClient();
+builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
@@ -26,6 +28,9 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.MapOpenApi();
+app.MapScalarApiReference();
 
 app.UseHttpsRedirection();
 
