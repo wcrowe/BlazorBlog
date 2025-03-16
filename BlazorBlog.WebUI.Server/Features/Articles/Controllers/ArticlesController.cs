@@ -2,12 +2,14 @@
 using BlazorBlog.Application.Articles.GetArticlesByCurrentUser;
 using BlazorBlog.Application.Articles.TogglePublish;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorBlog.WebUI.Server.Features.Articles.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class ArticlesController : ControllerBase
 {
 
@@ -26,6 +28,7 @@ public class ArticlesController : ControllerBase
     }
 
     [HttpPatch("{id}")]
+    [Authorize]
     public async Task<ActionResult<ArticleResponse>> TogglePublishArticle(int id)
     {
         var result = await _articleOverviewService.TogglePublishArticleAsync(id);
