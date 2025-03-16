@@ -1,6 +1,5 @@
 ﻿@page "/user-overview"
 
-
 @inject ISender Sender
 @rendermode InteractiveServer
 @attribute [Authorize(Roles = "Admin")]
@@ -9,7 +8,6 @@
 
 <h2 class="text-3xl font-extrabold px-4 py-4 my-4 text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 rounded-lg">User Overview</h2>
 
-
 @if (users is null)
 {
     <span><em>Loading...</em></span>
@@ -17,14 +15,15 @@
 else if (users.Count == 0)
 {
     <span><em>No users found</em></span>
-}else{
-   <QuickGrid Items="users.AsQueryable()">
-
-        <PropertyColumn Property="@(prop=>prop.UserName)" Sortable="true" Title="User Name" ></PropertyColumn>
-        <PropertyColumn Property="@(prop=>prop.Email)" Sortable="true" Title="Email"></PropertyColumn>
-        <PropertyColumn Property="@(prop=>prop.Roles)" Sortable="false" Title="Email"></PropertyColumn>
+}
+else
+{
+    <QuickGrid Items="users.AsQueryable()">
+        <PropertyColumn Property="@(prop => prop.UserName)" Sortable="true" Title="User Name"></PropertyColumn>
+        <PropertyColumn Property="@(prop => prop.Email)" Sortable="true" Title="Email"></PropertyColumn>
+        <PropertyColumn Property="@(prop => prop.Roles)" Sortable="false" Title="Roles"></PropertyColumn>
         <TemplateColumn Title="Actions">
-            <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-flex items-center" @onclick="()=>OpenModal(context.Id, context.UserName)">
+            <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded inline-flex items-center" @onclick="() => OpenModal(context.Id, context.UserName)">
                 <svg class="h-4 w-4 text-white mr-1" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" />
                     <rect x="5" y="11" width="14" height="10" rx="2" />
@@ -33,29 +32,38 @@ else if (users.Count == 0)
                 </svg>
                 <span>Manage Roles</span>
             </button>
-         </TemplateColumn>
-
+        </TemplateColumn>
     </QuickGrid>
-
 }
 
-<UserRolesModal ShowModal="@showModal" ModalClosed="CloseModal" UserId="@selectedUserId" UserName="@selectedUserName" />
+<UserRolesModal ShowModal="@showModal" ModalClosed="CloseModal"
+                UserId="@selectedUserId" UserName="@selectedUserName" />
 
 @code {
-    private List<UserResponse> users = [];
+    private List<UserResponse> users = new();
     private bool showModal = false;
     private string selectedUserId = "";
     private string selectedUserName = "";
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await Sender.Send(new GetUsersQuery());
-        if (result.Success)
+        try
         {
-            users = result!;
-        }else
+            var result = await Sender.Send(new GetUsersQuery());
+            if (result.Success)
+            {
+                users = result!;
+            }
+            else
+            {
+                users = new();
+                Console.WriteLine("Failed to load users.");
+            }
+        }
+        catch (Exception ex)
         {
-            users = [];
+            Console.WriteLine($"Error loading users: {ex.Message}");
+            users = new();
         }
     }
 
@@ -64,10 +72,12 @@ else if (users.Count == 0)
         selectedUserId = userId;
         selectedUserName = userName;
         showModal = true;
-        Console.WriteLine($"OpenModal {selectedUserId} {selectedUserName}"); 
+        Console.WriteLine($"OpenModal {selectedUserId} {selectedUserName}");
     }
-    private void CloseModal()
+
+    private async Task CloseModal()
     {
         showModal = false;
+        await InvokeAsync(StateHasChanged); // Ensure UI updates
     }
 }
