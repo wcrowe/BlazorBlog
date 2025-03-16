@@ -66,11 +66,17 @@
             await InvokeAsync(StateHasChanged); // Ensure UI updates
         }
     }
-
+    /// <summary>
+    /// Remove a role from the user
+    /// </summary>
+    /// <param name="role"></param>
+    /// <returns></returns>
     private async Task RemoveRole(string role)
     {
         if (roles.Contains(role))
         {
+            //this does not remove the role from the database, only from the user from the role,
+            //so the role is still available to be added back
             await Sender.Send(new RemoveRoleFromUserCommand { UserId = UserId, RoleName = role });
             await LoadUserRoles();
             await InvokeAsync(StateHasChanged); // Ensure UI updates
