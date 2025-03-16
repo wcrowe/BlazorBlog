@@ -1,46 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Pages\**" />
     <Content Remove="Pages\**" />
     <EmbeddedResource Remove="Pages\**" />
     <None Remove="Pages\**" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="twcli.exe" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="8.0.14" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.14" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.13">
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="9.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\BlazorBlog.Infrastructure\BlazorBlog.Infrastructure.csproj" />
     <ProjectReference Include="..\BlazorBlog.WebUI.Client\BlazorBlog.WebUI.Client.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <AdditionalFiles Include="Shared\BlogLayout.razor" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="styles\input.css" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="wwwroot\wwwroot\" />
   </ItemGroup>
-
 </Project>

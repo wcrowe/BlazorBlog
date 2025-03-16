@@ -1,3 +1,13 @@
 https://github.com/Bdavis90/BlazingBlog/tree/master
 https://github.com/mpaulosky/BlazingBlog
 https://github.com/vieri2in/BlazingBlog-Blazor-Server-Net7
+
+dotnet nuget locals all --clear
+
+dotnet nuget locals global-packages --clear
+
+dotnet nuget locals http-cache --clear
+
+dotnet nuget locals temp --clear
+
+dotnet nuget locals all --clear
